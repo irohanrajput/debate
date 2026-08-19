@@ -23,6 +23,7 @@ fastapi = ">=0.110"
 uvicorn = ">=0.29"
 rich = "^13.7"
 pyyaml = "^6.0"
+langchain-text-splitters = "^1.1.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2"

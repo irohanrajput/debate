@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     # models
     flash_model: str = "gemini-2.5-flash"
     pro_model: str = "gemini-2.5-pro"
-    embedding_model: str = "models/text-embedding-004"
+    embedding_model: str = "models/gemini-embedding-001"
     llm_temperature: float = 0.0
     llm_timeout_s: int = 120
     repair_retries: int = 1
