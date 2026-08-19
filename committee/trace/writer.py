@@ -14,6 +14,8 @@ class TraceWriter:
         self._events_file = (run_dir / "events.jsonl").open("a")
 
     def __call__(self, event: TraceEvent) -> None:
+        if self._events_file.closed:
+            return
         self._events_file.write(event.model_dump_json() + "\n")
         self._events_file.flush()
 

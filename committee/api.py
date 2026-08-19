@@ -54,10 +54,10 @@ async def _execute(run_id: str, req: DebateRequest) -> None:
     except Exception as exc:
         entry["status"] = f"failed: {exc}"
     finally:
+        await rt.bus.publish(_TERMINAL_EVENT, run_id=run_id)
         trace = build_trace(rt)
         entry["trace"] = trace
         writer.finalize(trace)
-        await rt.bus.publish(_TERMINAL_EVENT, run_id=run_id)
 
 
 @app.post("/debate")

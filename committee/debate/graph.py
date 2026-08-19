@@ -261,7 +261,7 @@ async def run_debate(*, thesis: Thesis, budget: int, policy: str = "explore_expl
     try:
         await graph.ainvoke({"rt": rt}, config={"recursion_limit": settings.max_rounds * 4 + 8})
     finally:
+        await rt.bus.publish("debate_finished", run_id=rt.run_id)
         trace = build_trace(rt)
         writer.finalize(trace)
-    await rt.bus.publish("debate_finished", run_id=rt.run_id)
     return trace

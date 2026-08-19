@@ -31,13 +31,16 @@ class FakeProvider:
 
 
 class FakeEmbedder:
-    """Deterministic hash-based vectors; only pairwise consistency matters in tests."""
+    """One-hot md5 vectors: identical texts -> cosine 1.0, different -> ~0."""
+
+    DIM = 64
 
     def embed_documents(self, texts: list[str]) -> list[list[float]]:
         return [self._vec(t) for t in texts]
 
-    @staticmethod
-    def _vec(text: str, dim: int = 16) -> list[float]:
-        seed = [float((hash(text) >> i) % 97) for i in range(0, dim * 3, 3)]
-        norm = sum(x * x for x in seed) ** 0.5 or 1.0
-        return [x / norm for x in seed]
+    @classmethod
+    def _vec(cls, text: str) -> list[float]:
+        import hashlib
+
+        idx = int(hashlib.md5(text.encode()).hexdigest(), 16) % cls.DIM
+        return [1.0 if i == idx else 0.0 for i in range(cls.DIM)]
