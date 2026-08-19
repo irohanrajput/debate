@@ -91,7 +91,8 @@ class Analyst:
             focus=focus, max_queries=settings.max_research_queries,
         )
         system = _system_for(self.lens)
-        out_cap = self._output_cap(system, user, max_tokens, settings.plan_min_output_tokens, settings.plan_tokens)
+        out_cap = self._output_cap(system, user, max_tokens, settings.plan_min_output_tokens, settings.plan_tokens,
+                                   overhead=settings.plan_schema_overhead_tokens)
         plan, usage = await self._provider.structured(
             schema=ResearchPlan, system=system, user=user,
             tier=tier, max_tokens=out_cap, kind="plan",
@@ -150,8 +151,9 @@ class Analyst:
         return position
 
     @staticmethod
-    def _output_cap(system: str, user: str, total_budget: int, min_out: int, hard_cap: int | None = None) -> int:
-        cap = total_budget - estimate_tokens(system + user) - settings.schema_overhead_tokens
+    def _output_cap(system: str, user: str, total_budget: int, min_out: int, hard_cap: int | None = None,
+                    overhead: int | None = None) -> int:
+        cap = total_budget - estimate_tokens(system + user) - (overhead if overhead is not None else settings.schema_overhead_tokens)
         if hard_cap is not None:
             cap = min(cap, hard_cap)
         if cap < min_out:

@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     repair_retries: int = 1
     chars_per_token: int = 3
     schema_overhead_tokens: int = 1200
+    plan_schema_overhead_tokens: int = 400
     min_output_tokens: int = 512
     plan_min_output_tokens: int = 256
     judge_output_tokens: int = 256
@@ -35,6 +36,7 @@ class Settings(BaseSettings):
     explore_research_frac: float = 0.60
     explore_argue_frac: float = 0.55
     exploit_argue_frac: float = 0.70
+    explore_final_frac: float = 0.85
     plan_tokens: int = 768
     argue_floor_tokens: int = 1024
     argue_realistic_tokens: int = 3600
