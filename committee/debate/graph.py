@@ -199,8 +199,9 @@ def build_graph():
 
 def build_runtime(*, thesis: Thesis, budget: int, policy: str, offline: bool,
                   run_dir: Path, provider=None, embedder=None, corpus=None,
-                  snapshot: MarketSnapshot | None = None) -> tuple[DebateRuntime, TraceWriter]:
-    run_id = uuid.uuid4().hex[:10]
+                  snapshot: MarketSnapshot | None = None,
+                  run_id: str | None = None) -> tuple[DebateRuntime, TraceWriter]:
+    run_id = run_id or uuid.uuid4().hex[:10]
     bus = EventBus(run_id)
     writer = TraceWriter(run_dir / run_id)
     bus.subscribe(writer)
