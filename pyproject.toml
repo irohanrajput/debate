@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "committee"
+version = "0.1.0"
+description = "Multi-agent investment committee with budget-constrained debate orchestration"
+authors = ["Rohan Rajput"]
+readme = "README.md"
+packages = [{ include = "committee" }]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pydantic = "^2.7"
+pydantic-settings = "^2.2"
+langgraph = ">=0.2"
+langchain-core = ">=0.3"
+langchain-google-genai = ">=2.0"
+langchain-chroma = ">=0.1"
+chromadb = ">=0.5"
+yfinance = ">=0.2.40"
+pandas = "^2.2"
+numpy = ">=1.26"
+pyarrow = ">=16"
+fastapi = ">=0.110"
+uvicorn = ">=0.29"
+rich = "^13.7"
+pyyaml = "^6.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2"
+pytest-asyncio = ">=0.23"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
