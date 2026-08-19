@@ -4,13 +4,9 @@ import json
 from pathlib import Path
 
 from langchain_core.documents import Document
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
 from committee.config import settings
-
-
-def _embedder() -> GoogleGenerativeAIEmbeddings:
-    return GoogleGenerativeAIEmbeddings(model=settings.embedding_model, google_api_key=settings.gemini_api_key)
+from committee.llm.embeddings import get_embedder as _embedder
 
 
 def _entity_for(content: str, entities: list[str]) -> str | None:
