@@ -46,19 +46,23 @@ def _cosine(a: list[float], b: list[float]) -> float:
 
 
 def _candidate_pairs(positions: dict[str, AnalystPosition], embedder: Embedder) -> list[tuple[str, Claim, str, Claim]]:
+    """Opposite-direction cross-lens pairs above a similarity floor, most
+    similar first, capped so judging cannot drain the debate pool."""
     owned = [(lens, c) for lens, pos in positions.items() for c in pos.claims]
     if len(owned) < 2:
         return []
     vectors = embedder.embed_documents([c.text for _, c in owned])
-    pairs = []
+    scored = []
     for i in range(len(owned)):
         for j in range(i + 1, len(owned)):
             (lens_a, a), (lens_b, b) = owned[i], owned[j]
             if lens_a == lens_b or _OPPOSED.get(a.direction) != b.direction:
                 continue
-            if _cosine(vectors[i], vectors[j]) >= settings.similarity_candidate_threshold:
-                pairs.append((lens_a, a, lens_b, b))
-    return pairs
+            sim = _cosine(vectors[i], vectors[j])
+            if sim >= settings.similarity_candidate_threshold:
+                scored.append((sim, lens_a, a, lens_b, b))
+    scored.sort(key=lambda t: -t[0])
+    return [(la, a, lb, b) for _, la, a, lb, b in scored[: settings.max_judge_pairs]]
 
 
 def _rebuttal_pairs(positions: dict[str, AnalystPosition]) -> list[tuple[str, str, str]]:

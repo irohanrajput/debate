@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     discover_research_frac: float = 0.60
     discover_argue_frac: float = 0.35
     explore_research_frac: float = 0.60
-    explore_argue_frac: float = 0.70
+    explore_argue_frac: float = 0.55
     exploit_argue_frac: float = 0.70
     plan_tokens: int = 768
     argue_floor_tokens: int = 1024
@@ -48,6 +48,7 @@ class Settings(BaseSettings):
     convergence_delta_cap: float = 0.10
     similarity_candidate_threshold: float = 0.55
     contradiction_threshold: float = 0.60
+    max_judge_pairs: int = 8
     stance_weight: float = 0.5
     contested_weight: float = 0.5
 
