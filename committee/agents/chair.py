@@ -62,6 +62,7 @@ async def synthesize(
         unresolved="\n".join(f"{r.claim_id}: {r.reasoning}" for r in unresolved) or "(none)",
         consensus=", ".join(consensus) or "(none)",
     )
+    user = user[: settings.synthesis_input_char_cap]
     system = (_PROMPTS / "chair_system.md").read_text()
     reservation = ledger.reserve(Pool.SYNTHESIS, "chair", "synthesis", ledger.remaining(Pool.SYNTHESIS))
     out_cap = max(settings.min_output_tokens, reservation.tokens - estimate_tokens(system + user))

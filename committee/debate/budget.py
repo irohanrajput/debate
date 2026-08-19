@@ -66,7 +66,7 @@ class Ledger:
         return self.pools[pool] - self.spent[pool] - self.reserved[pool]
 
     def reserve(self, pool: Pool, lens: str, kind: str, tokens: int) -> Reservation:
-        if pool == Pool.SYNTHESIS and kind not in ("synthesis", "tiebreak"):
+        if pool == Pool.SYNTHESIS and kind != "synthesis":
             raise BudgetError(f"kind={kind} may not draw from synthesis pool")
         granted = max(0, min(tokens, self.remaining(pool)))
         self.reserved[pool] += granted

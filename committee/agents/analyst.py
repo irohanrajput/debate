@@ -151,7 +151,7 @@ class Analyst:
 
     @staticmethod
     def _output_cap(system: str, user: str, total_budget: int, min_out: int, hard_cap: int | None = None) -> int:
-        cap = total_budget - estimate_tokens(system + user)
+        cap = total_budget - estimate_tokens(system + user) - settings.schema_overhead_tokens
         if hard_cap is not None:
             cap = min(cap, hard_cap)
         if cap < min_out:

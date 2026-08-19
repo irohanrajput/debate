@@ -54,14 +54,20 @@ async def resolve_conflicts(
     resolutions: list[Resolution] = []
     template = (_PROMPTS / "tiebreak_user.md").read_text()
     system = "You are a neutral senior investment adjudicator."
-    for claim in contested:
+    ranked = sorted(contested, key=lambda c: -c.score)
+    for i, claim in enumerate(ranked):
+        if i >= settings.max_tiebreaks:
+            resolutions.append(Resolution(
+                claim_id=claim.claim_id, method=ResolutionMethod.FLAG_UNRESOLVED,
+                reasoning=f"contested by {claim.against_lenses} vs {claim.owner}; beyond tiebreak cap ({settings.max_tiebreaks}), flagged for human review",
+            ))
+            continue
         text, evidence = _claim_context(claim.claim_id, positions)
         user = template.format(owner=claim.owner, claim_text=text, owner_evidence=evidence,
                                against=", ".join(claim.against_lenses),
                                objections=_objections(claim.claim_id, claim.against_lenses, positions))
-        need = estimate_tokens(system + user) + settings.tiebreak_output_tokens
-        pool = Pool.DEBATE if ledger.remaining(Pool.DEBATE) >= need else Pool.SYNTHESIS
-        res = ledger.reserve(pool, "tiebreaker", "tiebreak", need)
+        need = estimate_tokens(system + user) + settings.schema_overhead_tokens + settings.tiebreak_output_tokens
+        res = ledger.reserve(Pool.DEBATE, "tiebreaker", "tiebreak", need)
         if res.tokens < need:
             ledger.release(res)
             resolutions.append(Resolution(

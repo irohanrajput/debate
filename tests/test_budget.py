@@ -36,10 +36,11 @@ def test_double_commit_raises():
         ledger.commit(res, Usage(output_tokens=10))
 
 
-def test_synthesis_pool_locked_to_analyst_kinds():
+def test_synthesis_pool_locked_to_synthesis_kind():
     ledger = Ledger(total=40000)
-    with pytest.raises(BudgetError):
-        ledger.reserve(Pool.SYNTHESIS, "a", "argue", 100)
+    for kind in ("argue", "plan", "judge", "tiebreak"):
+        with pytest.raises(BudgetError):
+            ledger.reserve(Pool.SYNTHESIS, "a", kind, 100)
     assert ledger.reserve(Pool.SYNTHESIS, "chair", "synthesis", 100).tokens == 100
 
 

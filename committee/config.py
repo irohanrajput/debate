@@ -17,10 +17,12 @@ class Settings(BaseSettings):
     pro_thinking_budget: int = 512
     repair_retries: int = 1
     chars_per_token: int = 3
+    schema_overhead_tokens: int = 700
     min_output_tokens: int = 512
     plan_min_output_tokens: int = 256
     judge_output_tokens: int = 256
     tiebreak_output_tokens: int = 1024
+    max_tiebreaks: int = 3
 
     # budget pools (fractions of total)
     research_pool_frac: float = 0.30
@@ -53,8 +55,9 @@ class Settings(BaseSettings):
     max_research_queries: int = 4
     tool_result_char_cap: int = 1500
     evidence_snippet_char_cap: int = 600
-    others_summary_char_cap: int = 4000
-    evidence_render_char_cap: int = 4500
+    others_summary_char_cap: int = 2000
+    synthesis_input_char_cap: int = 15000
+    evidence_render_char_cap: int = 2500
     retrieval_k: int = 5
 
     # corpus / chunking
@@ -78,7 +81,7 @@ class Settings(BaseSettings):
     # io
     data_dir: str = "data"
     runs_dir: str = "runs"
-    default_budget: int = 50000
+    default_budget: int = 60000
     api_host: str = "0.0.0.0"
     api_port: int = 8000
 
