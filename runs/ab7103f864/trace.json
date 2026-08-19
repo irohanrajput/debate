@@ -1,0 +1,2498 @@
+{
+  "run_id": "ab7103f864",
+  "thesis": {
+    "statement": "Should we buy NovaTech at current levels given its enterprise AI momentum?",
+    "ticker": null,
+    "entity": "NovaTech Inc.",
+    "horizon": null,
+    "constraints": []
+  },
+  "config_snapshot": {
+    "policy": "explore_exploit",
+    "budget": 60000,
+    "min_rounds": 3,
+    "max_rounds": 4,
+    "lenses": [
+      "fundamentalist",
+      "momentum",
+      "quality",
+      "risk"
+    ]
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "mode": "DISCOVER",
+      "budget_decision": {
+        "round": 1,
+        "mode": "DISCOVER",
+        "selected_lenses": [
+          "fundamentalist",
+          "momentum",
+          "quality",
+          "risk"
+        ],
+        "tier_by_lens": {
+          "fundamentalist": "flash",
+          "momentum": "flash",
+          "quality": "flash",
+          "risk": "flash"
+        },
+        "research_by_lens": {
+          "fundamentalist": 2700,
+          "momentum": 2700,
+          "quality": 2700,
+          "risk": 2700
+        },
+        "argue_by_lens": {
+          "fundamentalist": 2887,
+          "momentum": 2887,
+          "quality": 2887,
+          "risk": 2887
+        },
+        "transfers": [],
+        "rationale": "R1 discover: research-heavy, findings only, all lenses, flash",
+        "state_snapshot": null
+      },
+      "findings": {
+        "fundamentalist": {
+          "lens": "fundamentalist",
+          "round": 1,
+          "observations": [
+            {
+              "text": "NovaTech's reported enterprise customer count has been inconsistent, initially claimed at 340 (EV-4), then re-evaluated to 298 verified accounts (EV-6), and later reported as 312 as of February 2025 (EV-3). The most recent report indicates growth to 315 verified customers (EV-5).",
+              "evidence_ids": [
+                "EV-4",
+                "EV-6",
+                "EV-3",
+                "EV-5"
+              ]
+            },
+            {
+              "text": "Revenue growth has decelerated from 45% YoY in Q1 to 32% YoY in Q2 2024 (EV-8). However, the most recent quarter reported $380M revenue with proper recognition (EV-5).",
+              "evidence_ids": [
+                "EV-8",
+                "EV-5"
+              ]
+            },
+            {
+              "text": "The company has experienced leadership changes, including a new CEO, Priya Sharma, from Salesforce (EV-6), and a CTO from Google who left after only 8 months (EV-8).",
+              "evidence_ids": [
+                "EV-6",
+                "EV-8"
+              ]
+            },
+            {
+              "text": "An SEC investigation into NovaTech was open as of January 2025 (EV-6) but has since been closed (EV-5).",
+              "evidence_ids": [
+                "EV-6",
+                "EV-5"
+              ]
+            },
+            {
+              "text": "NovaTech has shipped a genuinely differentiated AI feature that competitors have failed to replicate (EV-5).",
+              "evidence_ids": [
+                "EV-5"
+              ]
+            }
+          ],
+          "open_questions": [
+            "What are the current and projected free cash flows for NovaTech?",
+            "What are the current and historical ROIC/ROE figures for NovaTech?",
+            "What are the current margins (gross, operating, net) and their trends?",
+            "What is the company's debt level and overall balance sheet strength?",
+            "What are the current valuation multiples (P/E, EV/EBITDA, P/FCF) relative to peers and historical averages?",
+            "What are the specific details of the 'proper recognition' of revenue and how does it impact the $380M figure compared to previous reporting?",
+            "What is the long-term growth outlook for revenue and earnings, and what are the key drivers?",
+            "What is the estimated intrinsic value of the business based on a DCF analysis?"
+          ],
+          "what_would_change_my_view": [
+            "Clear evidence of sustained, profitable revenue and free cash flow growth.",
+            "Demonstrated improvement in ROIC and margins.",
+            "A robust balance sheet with manageable debt levels.",
+            "A valuation that presents a meaningful discount to intrinsic value based on conservative assumptions.",
+            "Further details on the sustainability and competitive moat of the new AI feature."
+          ],
+          "provisional_lean": "NEUTRAL",
+          "summary": "While NovaTech shows signs of a potential turnaround with a new CEO, a closed SEC investigation, and a differentiated AI feature, historical inconsistencies in customer reporting and decelerating growth raise concerns. A thorough financial analysis is required to assess the business's intrinsic value.",
+          "usage": {
+            "input_tokens": 1107,
+            "output_tokens": 758,
+            "model": "gemini-2.5-flash",
+            "kind": "findings"
+          }
+        },
+        "momentum": {
+          "lens": "momentum",
+          "round": 1,
+          "observations": [
+            {
+              "text": "NovaTech's stock ran to $88 by July 2024, a 22% increase from its April 2024 entry point at $72, following strong Q1 results with 45% YoY revenue acceleration and 135% net revenue retention. This indicates strong demand overwhelming supply at that time.",
+              "evidence_ids": [
+                "EV-7"
+              ]
+            },
+            {
+              "text": "The stock stabilized around $75-80 for two months after Q2 2024 results showed growth deceleration to 32% YoY from 45% in Q1, and a concerning CTO departure. This suggests a pause in momentum and a potential shift in market sentiment.",
+              "evidence_ids": [
+                "EV-8"
+              ]
+            },
+            {
+              "text": "NovaTech reported Q4 2024 revenue of $480M, with 32% year-over-year growth. This growth rate is consistent with the Q2 deceleration and does not show re-acceleration.",
+              "evidence_ids": [
+                "EV-10",
+                "EV-8"
+              ]
+            },
+            {
+              "text": "The market was not compelling enough to re-enter NovaTech at $41 in January 2025 due to an open SEC investigation and cleaned-up customer counts (298 verified vs. 340 claimed). This indicates a significant breakdown in price and a lack of market confidence.",
+              "evidence_ids": [
+                "EV-6"
+              ]
+            },
+            {
+              "text": "As of June 2025, NovaTech reported a 'clean quarter' with revenue of $380M, 298 verified enterprise customers growing to 315, and the SEC investigation closed. A genuinely differentiated AI feature was also shipped. This suggests a potential turnaround in market structure and demand.",
+              "evidence_ids": [
+                "EV-5"
+              ]
+            }
+          ],
+          "open_questions": [
+            "What is the current price of NovaTech? The evidence shows prices at $72 (April 2024), $88 (July 2024), $78 (July 2024), $75-80 (stabilized after July 2024), and $41 (January 2025). Knowing the current price is crucial for assessing momentum.",
+            "What is the recent price action and volume since the June 2025 'clean quarter' report? Has the stock broken out of its downtrend?",
+            "How has relative strength performed against its peers and the broader market since the SEC investigation closed and the new AI feature was released?",
+            "What are the current moving average trends? Are they confirming a new uptrend or is the stock still below key resistance levels?"
+          ],
+          "what_would_change_my_view": [
+            "A clear breakout above significant resistance levels on strong volume, confirming a reversal of the downtrend.",
+            "Sustained relative strength outperformance against its sector and the broader market.",
+            "Confirmation of increasing demand through higher highs and higher lows in price action.",
+            "A significant increase in trading volume accompanying any upward price movement"
+          ],
+          "provisional_lean": null,
+          "summary": "",
+          "usage": {
+            "input_tokens": 1158,
+            "output_tokens": 740,
+            "model": "gemini-2.5-flash",
+            "kind": "findings"
+          }
+        },
+        "quality": {
+          "lens": "quality",
+          "round": 1,
+          "observations": [
+            {
+              "text": "NovaTech's reported enterprise customer count has been inconsistent and subject to 're-evaluation,' with figures ranging from 312 (company press release) to 200 (anonymous source) and 298 (new CEO). This indicates a lack of clarity and potential overstatement in past reporting, which directly impacts the perceived scale and stickiness of their customer base.",
+              "evidence_ids": [
+                "EV-3",
+                "EV-9",
+                "EV-11"
+              ]
+            },
+            {
+              "text": "The company has experienced significant management turnover, including the departure of a CTO from Google after only 8 months, which is concerning for product vision and execution, especially in a rapidly evolving field like enterprise AI.",
+              "evidence_ids": [
+                "EV-8"
+              ]
+            },
+            {
+              "text": "NovaTech underwent a material revenue restatement, with Q4 revenue being $412M instead of the originally reported $480M due to premature revenue recognition. This is a serious red flag regarding management's integrity and financial reporting quality, undermining confidence in the durability of their business practices.",
+              "evidence_ids": [
+                "EV-12"
+              ]
+            },
+            {
+              "text": "Growth decelerated from 45% YoY in Q1 to 32% in Q2, which, combined with accounting issues and management changes, suggests potential underlying business challenges beyond 'tough comps.'",
+              "evidence_ids": [
+                "EV-8",
+                "EV-12"
+              ]
+            },
+            {
+              "text": "A new CEO, Priya Sharma from Salesforce, has been appointed and has publicly committed to 'rebuilding trust through transparent reporting' and has provided a 'verified enterprise customer' count of 298. This suggests an attempt to address past issues and potentially improve governance.",
+              "evidence_ids": [
+                "EV-11",
+                "EV-6"
+              ]
+            },
+            {
+              "text": "An SEC investigation into NovaTech is still open, indicating ongoing regulatory scrutiny that could pose a significant overhang and risk to the company's operations and reputation.",
+              "evidence_ids": [
+                "EV-6"
+              ]
+            }
+          ],
+          "open_questions": [
+            "What is the nature and scope of the SEC investigation, and what is the potential timeline and impact of its resolution?",
+            "What is the actual customer retention rate and average customer lifetime value for NovaTech's enterprise AI solutions? How sticky are these customers?",
+            "What is the competitive landscape for enterprise AI, and what are NovaTech's specific competitive advantages (e.g., proprietary technology, data moats, network effects) that would allow it to 'keep winning'?",
+            "What is the long-term vision and strategy of the new CEO, Priya Sharma, for product development, market expansion, and rebuilding trust with customers and investors?",
+            "What is the durability of NovaTech's margins given the past revenue recognition issues and potential need for increased investment in compliance and customer acquisition?"
+          ],
+          "what_would_change_my_view": [
+            "Clear evidence of a strong, defensible competitive advantage (e.g., proprietary technology, high switching costs, significant network effects) in their enterprise AI offerings."
+          ],
+          "provisional_lean": null,
+          "summary": "",
+          "usage": {
+            "input_tokens": 1108,
+            "output_tokens": 734,
+            "model": "gemini-2.5-flash",
+            "kind": "findings"
+          }
+        },
+        "risk": {
+          "lens": "risk",
+          "round": 1,
+          "observations": [
+            {
+              "text": "NovaTech has a history of questionable revenue recognition practices, leading to a $68M revenue restatement for Q4 2024 (from $480M to $412M). This previously led to a significant stock decline and a loss of confidence from institutional investors.",
+              "evidence_ids": [
+                "EV-12"
+              ]
+            },
+            {
+              "text": "The SEC has initiated a formal investigation into NovaTech's revenue recognition practices, specifically focusing on multi-year contracts from Q3 and Q4 2024.",
+              "evidence_ids": [
+                "EV-14"
+              ]
+            },
+            {
+              "text": "The company's reported enterprise customer count has been inconsistent and subject to 're-evaluation.' It was initially claimed as 340, then 'cleaned up' to 298, and most recently reported as 312. An anonymous source suggests the true number is closer to 200.",
+              "evidence_ids": [
+                "EV-3",
+                "EV-6",
+                "EV-9"
+              ]
+            },
+            {
+              "text": "NovaTech has experienced significant management turnover, including the departure of a CTO after only 8 months and the recent resignation of the CFO.",
+              "evidence_ids": [
+                "EV-8",
+                "EV-13"
+              ]
+            },
+            {
+              "text": "Growth has decelerated from 45% YoY in Q1 to 32% YoY in Q2, which management attributed to tough comparisons.",
+              "evidence_ids": [
+                "EV-8"
+              ]
+            }
+          ],
+          "open_questions": [
+            "What is the potential financial impact of the SEC investigation, including fines or further restatements?",
+            "What are the specific details of the 'rigorous re-evaluation' of active account definitions, and how does it reconcile the varying customer count figures?",
+            "What is the current debt load and liquidity position of NovaTech, especially in light of potential legal costs and operational disruptions from the SEC investigation?",
+            "What are the terms of the multi-year contracts under SEC scrutiny, and what is the probability of them being deemed improperly recognized?",
+            "How does the current macroeconomic environment, particularly interest rates and potential economic slowdowns, impact NovaTech's ability to secure and retain enterprise customers, especially given its history of revenue recognition issues?"
+          ],
+          "what_would_change_my_view": [
+            "A clear and definitive resolution of the SEC investigation with no material adverse findings or penalties.",
+            "Independent verification of NovaTech's enterprise customer count, demonstrating consistent and transparent reporting.",
+            "Stabilization of key management positions with experienced, credible leaders and a clear plan for improved financial controls.",
+            "Evidence of sustained, organic revenue growth without reliance on aggressive accounting practices, even in a challenging macro environment."
+          ],
+          "provisional_lean": "BEAR",
+          "summary": "NovaTech presents significant downside risks due to ongoing SEC investigation into past revenue recognition issues, inconsistent customer reporting, and recent management turnover. The macro",
+          "usage": {
+            "input_tokens": 1150,
+            "output_tokens": 701,
+            "model": "gemini-2.5-flash",
+            "kind": "findings"
+          }
+        }
+      },
+      "positions": {},
+      "state": null
+    },
+    {
+      "round": 2,
+      "mode": "EXPLORE",
+      "budget_decision": {
+        "round": 2,
+        "mode": "EXPLORE",
+        "selected_lenses": [
+          "fundamentalist",
+          "momentum",
+          "quality",
+          "risk"
+        ],
+        "tier_by_lens": {
+          "fundamentalist": "flash",
+          "momentum": "flash",
+          "quality": "flash",
+          "risk": "flash"
+        },
+        "research_by_lens": {
+          "fundamentalist": 2181,
+          "momentum": 2181,
+          "quality": 2181,
+          "risk": 2181
+        },
+        "argue_by_lens": {
+          "fundamentalist": 3512,
+          "momentum": 3512,
+          "quality": 3512,
+          "risk": 3512
+        },
+        "transfers": [],
+        "rationale": "explore: no contested claims (disagreement=None); breadth over depth, all lenses, flash",
+        "state_snapshot": {
+          "round": 1,
+          "mode": "DISCOVER",
+          "stance_counts": {},
+          "disagreement_score": null,
+          "convergence_delta": null,
+          "contested": [],
+          "converged": false,
+          "coverage_notes": [
+            "What are the current and projected free cash flows for NovaTech?",
+            "What are the current and historical ROIC/ROE figures for NovaTech?",
+            "What are the current margins (gross, operating, net) and their trends?",
+            "What is the company's debt level and overall balance sheet strength?",
+            "What are the current valuation multiples (P/E, EV/EBITDA, P/FCF) relative to peers and historical averages?",
+            "What are the specific details of the 'proper recognition' of revenue and how does it impact the $380M figure compared to previous reporting?",
+            "What is the long-term growth outlook for revenue and earnings, and what are the key drivers?",
+            "What is the estimated intrinsic value of the business based on a DCF analysis?",
+            "What is the current price of NovaTech? The evidence shows prices at $72 (April 2024), $88 (July 2024), $78 (July 2024), $75-80 (stabilized after July 2024), and $41 (January 2025). Knowing the current price is crucial for assessing momentum.",
+            "What is the recent price action and volume since the June 2025 'clean quarter' report? Has the stock broken out of its downtrend?",
+            "How has relative strength performed against its peers and the broader market since the SEC investigation closed and the new AI feature was released?",
+            "What are the current moving average trends? Are they confirming a new uptrend or is the stock still below key resistance levels?",
+            "What is the nature and scope of the SEC investigation, and what is the potential timeline and impact of its resolution?",
+            "What is the actual customer retention rate and average customer lifetime value for NovaTech's enterprise AI solutions? How sticky are these customers?",
+            "What is the competitive landscape for enterprise AI, and what are NovaTech's specific competitive advantages (e.g., proprietary technology, data moats, network effects) that would allow it to 'keep winning'?",
+            "What is the long-term vision and strategy of the new CEO, Priya Sharma, for product development, market expansion, and rebuilding trust with customers and investors?",
+            "What is the durability of NovaTech's margins given the past revenue recognition issues and potential need for increased investment in compliance and customer acquisition?",
+            "What is the potential financial impact of the SEC investigation, including fines or further restatements?",
+            "What are the specific details of the 'rigorous re-evaluation' of active account definitions, and how does it reconcile the varying customer count figures?",
+            "What is the current debt load and liquidity position of NovaTech, especially in light of potential legal costs and operational disruptions from the SEC investigation?",
+            "What are the terms of the multi-year contracts under SEC scrutiny, and what is the probability of them being deemed improperly recognized?",
+            "How does the current macroeconomic environment, particularly interest rates and potential economic slowdowns, impact NovaTech's ability to secure and retain enterprise customers, especially given its history of revenue recognition issues?"
+          ]
+        }
+      },
+      "findings": {},
+      "positions": {
+        "fundamentalist": {
+          "lens": "fundamentalist",
+          "round": 2,
+          "stance": "HOLD",
+          "confidence": 0.6,
+          "claims": [
+            {
+              "id": "FUND-R2-1",
+              "text": "The company's customer count has been inconsistent and subject to re-evaluation, indicating a lack of transparency and potential overstatement of growth in the past.",
+              "direction": "BEAR",
+              "importance": 4,
+              "evidence_ids": [
+                "EV-6",
+                "EV-3",
+                "EV-4"
+              ]
+            },
+            {
+              "id": "FUND-R2-2",
+              "text": "While revenue growth was strong in early 2024, it has decelerated significantly, raising concerns about the sustainability of its business model.",
+              "direction": "BEAR",
+              "importance": 4,
+              "evidence_ids": [
+                "EV-2",
+                "EV-8"
+              ]
+            },
+            {
+              "id": "FUND-R2-3",
+              "text": "The closure of the SEC investigation and the shipment of a differentiated AI feature are positive developments, suggesting a potential turnaround in the underlying business.",
+              "direction": "BULL",
+              "importance": 3,
+              "evidence_ids": [
+                "EV-5"
+              ]
+            },
+            {
+              "id": "FUND-R2-4",
+              "text": "The departure of a CTO from Google after only 8 months is a red flag regarding leadership stability and product execution.",
+              "direction": "BEAR",
+              "importance": 3,
+              "evidence_ids": [
+                "EV-8"
+              ]
+            },
+            {
+              "id": "FUND-R2-5",
+              "text": "The recent 'clean quarter' with proper revenue recognition and verified customer growth, along with the new AI feature, indicates improved operational integrity and potential for future cash flows.",
+              "direction": "BULL",
+              "importance": 4,
+              "evidence_ids": [
+                "EV-5"
+              ]
+            }
+          ],
+          "responses": [
+            {
+              "claim_id": "momentum_1",
+              "action": "REBUT",
+              "text": "The stock's price movements, such as the 22% increase or stabilization, are not directly indicative of the business's intrinsic value. My focus is on the underlying fundamentals, not short-term market sentiment or price action. The initial strong price movement was based on what turned out to be questionable customer counts and an open SEC investigation, which are now being addressed.",
+              "evidence_ids": [
+                "EV-6",
+                "EV-3"
+              ]
+            },
+            {
+              "claim_id": "momentum_2",
+              "action": "REBUT",
+              "text": "The deceleration in growth is a fundamental concern, not just a 'pause in momentum.' The business's ability to generate future cash flows is directly tied to its growth trajectory. While the stock stabilized, the underlying business growth slowed from 45% to 32% YoY, which is a material change in the business's performance.",
+              "evidence_ids": [
+                "EV-8"
+              ]
+            }
+          ],
+          "risks": [],
+          "changed_from_prior": false,
+          "change_reason": "",
+          "summary": "",
+          "usage": {
+            "input_tokens": 1660,
+            "output_tokens": 700,
+            "model": "gemini-2.5-flash",
+            "kind": "argue"
+          }
+        },
+        "momentum": {
+          "lens": "momentum",
+          "round": 2,
+          "stance": "BUY",
+          "confidence": 0.8,
+          "claims": [
+            {
+              "id": "MOME-R2-1",
+              "text": "The market is confirming a turnaround with recent positive developments, indicating demand is overwhelming supply.",
+              "direction": "BULL",
+              "importance": 5,
+              "evidence_ids": [
+                "EV-5"
+              ]
+            },
+            {
+              "id": "MOME-R2-2",
+              "text": "The closure of the SEC investigation removes a significant overhang that previously deterred market participation.",
+              "direction": "BULL",
+              "importance": 4,
+              "evidence_ids": [
+                "EV-5",
+                "EV-6"
+              ]
+            },
+            {
+              "id": "MOME-R2-3",
+              "text": "The company has shipped a genuinely differentiated AI feature, which is a strong catalyst for future momentum and relative strength.",
+              "direction": "BULL",
+              "importance": 4,
+              "evidence_ids": [
+                "EV-5"
+              ]
+            },
+            {
+              "id": "MOME-R2-4",
+              "text": "While past growth decelerated, the most recent quarter shows a 'clean' revenue report and growing verified customer count, suggesting a re-acceleration of positive trends.",
+              "direction": "BULL",
+              "importance": 3,
+              "evidence_ids": [
+                "EV-5",
+                "EV-8"
+              ]
+            }
+          ],
+          "responses": [
+            {
+              "claim_id": "fundamentalist_claim_1",
+              "action": "REBUT",
+              "text": "You can tell me about past inconsistencies in customer count, but the market is reacting to the *current* verified customer count growing again (EV-5). The market doesn't care about old numbers when new, clean data is emerging.",
+              "evidence_ids": [
+                "EV-5"
+              ]
+            },
+            {
+              "claim_id": "fundamentalist_claim_2",
+              "action": "REBUT",
+              "text": "While growth decelerated in Q2 2024, the market is now seeing a 'first clean quarter' with proper revenue recognition and renewed customer growth (EV-5). The market is forward-looking, and this signals a potential re-acceleration of positive momentum.",
+              "evidence_ids": [
+                "EV-5",
+                "EV-8"
+              ]
+            },
+            {
+              "claim_id": "fundamentalist_claim_3",
+              "action": "CONCEDE",
+              "text": "I concede that leadership changes can be a concern, but the market is clearly responding positively to the new CEO's actions and the recent clean quarter (EV-5). The market is telling us the new leadership is having a positive impact on the tape.",
+              "evidence_ids": [
+                ""
+              ]
+            }
+          ],
+          "risks": [],
+          "changed_from_prior": false,
+          "change_reason": "",
+          "summary": "",
+          "usage": {
+            "input_tokens": 1684,
+            "output_tokens": 653,
+            "model": "gemini-2.5-flash",
+            "kind": "argue"
+          }
+        },
+        "quality": {
+          "lens": "quality",
+          "round": 2,
+          "stance": "PASS",
+          "confidence": 0.7,
+          "claims": [
+            {
+              "id": "QUAL-R2-1",
+              "text": "The recent history of revenue restatements and inconsistent customer reporting significantly undermines trust in NovaTech's management and financial transparency, making it difficult to assess the true quality of the business.",
+              "direction": "BEAR",
+              "importance": 5,
+              "evidence_ids": [
+                "EV-12",
+                "EV-6",
+                "EV-11"
+              ]
+            },
+            {
+              "id": "QUAL-R2-2",
+              "text": "Frequent leadership changes, including the departure of a CTO after only 8 months and the replacement of the founder CEO, indicate potential instability within the company's strategic direction and operational execution.",
+              "direction": "BEAR",
+              "importance": 4,
+              "evidence_ids": [
+                "EV-8",
+                "EV-11",
+                "EV-6"
+              ]
+            },
+            {
+              "id": "QUAL-R2-3",
+              "text": "While the company has shown periods of strong growth and customer retention, the recent deceleration in revenue growth from 45% to 32% YoY, coupled with past accounting issues, raises questions about the durability and reliability of its growth trajectory.",
+              "direction": "BEAR",
+              "importance": 4,
+              "evidence_ids": [
+                "EV-7",
+                "EV-8",
+                "EV-12"
+              ]
+            },
+            {
+              "id": "QUAL-R2-4",
+              "text": "The closure of the SEC investigation and the appointment of a new CEO committed to transparency are positive developments, but they do not fully mitigate the historical issues that have eroded confidence in the business's long-term quality.",
+              "direction": "NEUTRAL",
+              "importance": 3,
+              "evidence_ids": [
+                "EV-6",
+                "EV-11"
+              ]
+            }
+          ],
+          "responses": [
+            {
+              "claim_id": "fundamentalist_C1",
+              "action": "CONCEDE",
+              "text": "I agree with the fundamentalist's point regarding the inconsistent customer count and revenue restatements. This directly impacts my ability to assess the quality and durability of the business, as reliable data is foundational to understanding competitive advantage and growth. The shift from 340 to 298 verified accounts and the revenue restatement from $480M to $412M are significant red flags for business quality. (EV-6, EV-12, EV-11)",
+              "evidence_ids": []
+            },
+            {
+              "claim_id": "fundamentalist_C2",
+              "action": "CONCEDE",
+              "text": "I also agree with the fundamentalist's observation about leadership changes. The departure of the CTO after only 8 months and the replacement of the",
+              "evidence_ids": []
+            }
+          ],
+          "risks": [],
+          "changed_from_prior": false,
+          "change_reason": "",
+          "summary": "",
+          "usage": {
+            "input_tokens": 1636,
+            "output_tokens": 659,
+            "model": "gemini-2.5-flash",
+            "kind": "argue"
+          }
+        },
+        "risk": {
+          "lens": "risk",
+          "round": 2,
+          "stance": "PASS",
+          "confidence": 0.8,
+          "claims": [
+            {
+              "id": "RISK-R2-1",
+              "text": "NovaTech's financial reporting has been highly unreliable, with multiple restatements and inconsistent customer count figures, culminating in an ongoing SEC investigation.",
+              "direction": "BEAR",
+              "importance": 5,
+              "evidence_ids": [
+                "EV-12",
+                "EV-6",
+                "EV-3",
+                "EV-14",
+                "EV-9"
+              ]
+            },
+            {
+              "id": "RISK-R2-2",
+              "text": "The company has experienced significant leadership instability, including the resignation of its CFO and the departure of a CTO, which raises concerns about internal controls and strategic direction.",
+              "direction": "BEAR",
+              "importance": 4,
+              "evidence_ids": [
+                "EV-13",
+                "EV-8",
+                "EV-12"
+              ]
+            },
+            {
+              "id": "RISK-R2-3",
+              "text": "The SEC has opened a formal investigation into NovaTech's revenue recognition practices, creating a significant regulatory overhang and potential for further financial penalties or reputational damage.",
+              "direction": "BEAR",
+              "importance": 5,
+              "evidence_ids": [
+                "EV-14",
+                "EV-6"
+              ]
+            },
+            {
+              "id": "RISK-R2-4",
+              "text": "Despite claims of a 'cleaned up' customer count, the figures remain inconsistent and potentially inflated, indicating a lack of transparency and continued risk in reported metrics.",
+              "direction": "BEAR",
+              "importance": 4,
+              "evidence_ids": [
+                "EV-6",
+                "EV-3",
+                "EV-9"
+              ]
+            }
+          ],
+          "responses": [],
+          "risks": [
+            "The SEC investigation could conclude with no material findings, removing a significant overhang.",
+            "The new CEO could successfully implement robust financial controls and restore investor confidence faster than anticipated.",
+            "The 'differentiated AI feature' could drive substantial, verifiable revenue growth that outweighs past accounting issues."
+          ],
+          "changed_from_prior": false,
+          "change_reason": "The new information provided by other analysts does not sufficiently address the core macro and regulatory risks I've identified. The SEC investigation is still open (EV-14), and the customer count remains inconsistent (EV-3, EV-9). While a new CEO and a 'differentiated AI feature' are noted, these do not mitigate the immediate and severe risks of financial misrepresentation and regulatory scrutiny. I would need clear evidence of the SEC investigation being closed without significant penalties, and consistent, independently verifiable financial reporting to reconsider my stance.",
+          "summary": "NovaTech presents an unacceptable risk profile due to a history of unreliable financial reporting, ongoing SEC investigation into",
+          "usage": {
+            "input_tokens": 1710,
+            "output_tokens": 614,
+            "model": "gemini-2.5-flash",
+            "kind": "argue"
+          }
+        }
+      },
+      "state": {
+        "round": 2,
+        "mode": "EXPLOIT",
+        "stance_counts": {
+          "BUY": 1,
+          "PASS": 2,
+          "HOLD": 1
+        },
+        "disagreement_score": 0.6471,
+        "convergence_delta": null,
+        "contested": [
+          {
+            "claim_id": "MOME-R2-2",
+            "owner": "momentum",
+            "for_lenses": [],
+            "against_lenses": [
+              "risk"
+            ],
+            "score": 1.0,
+            "rounds_contested": 1
+          },
+          {
+            "claim_id": "RISK-R2-3",
+            "owner": "risk",
+            "for_lenses": [],
+            "against_lenses": [
+              "momentum"
+            ],
+            "score": 1.0,
+            "rounds_contested": 1
+          },
+          {
+            "claim_id": "MOME-R2-4",
+            "owner": "momentum",
+            "for_lenses": [],
+            "against_lenses": [
+              "quality",
+              "fundamentalist",
+              "risk"
+            ],
+            "score": 0.9,
+            "rounds_contested": 1
+          },
+          {
+            "claim_id": "QUAL-R2-3",
+            "owner": "quality",
+            "for_lenses": [],
+            "against_lenses": [
+              "momentum",
+              "fundamentalist"
+            ],
+            "score": 0.9,
+            "rounds_contested": 1
+          },
+          {
+            "claim_id": "FUND-R2-2",
+            "owner": "fundamentalist",
+            "for_lenses": [],
+            "against_lenses": [
+              "momentum"
+            ],
+            "score": 0.9,
+            "rounds_contested": 1
+          },
+          {
+            "claim_id": "FUND-R2-1",
+            "owner": "fundamentalist",
+            "for_lenses": [],
+            "against_lenses": [
+              "momentum"
+            ],
+            "score": 0.9,
+            "rounds_contested": 1
+          },
+          {
+            "claim_id": "RISK-R2-4",
+            "owner": "risk",
+            "for_lenses": [],
+            "against_lenses": [
+              "momentum",
+              "fundamentalist"
+            ],
+            "score": 0.9,
+            "rounds_contested": 1
+          },
+          {
+            "claim_id": "FUND-R2-5",
+            "owner": "fundamentalist",
+            "for_lenses": [],
+            "against_lenses": [
+              "risk",
+              "quality"
+            ],
+            "score": 0.9,
+            "rounds_contested": 1
+          },
+          {
+            "claim_id": "QUAL-R2-1",
+            "owner": "quality",
+            "for_lenses": [],
+            "against_lenses": [
+              "momentum"
+            ],
+            "score": 0.9,
+            "rounds_contested": 1
+          }
+        ],
+        "converged": false,
+        "coverage_notes": []
+      }
+    },
+    {
+      "round": 3,
+      "mode": "EXPLOIT",
+      "budget_decision": {
+        "round": 3,
+        "mode": "EXPLOIT",
+        "selected_lenses": [
+          "fundamentalist",
+          "momentum",
+          "quality",
+          "risk"
+        ],
+        "tier_by_lens": {
+          "fundamentalist": "pro",
+          "momentum": "pro",
+          "quality": "pro",
+          "risk": "pro"
+        },
+        "research_by_lens": {
+          "fundamentalist": 0,
+          "momentum": 0,
+          "quality": 0,
+          "risk": 0
+        },
+        "argue_by_lens": {
+          "fundamentalist": 4690,
+          "momentum": 6254,
+          "quality": 3127,
+          "risk": 3909
+        },
+        "transfers": [
+          {
+            "src": "research",
+            "dst": "debate",
+            "tokens": 11096
+          }
+        ],
+        "rationale": "exploit: 9 contested claims (disagreement=0.65); pro tier for parties, budget weighted by contested involvement, research pool folded into debate",
+        "state_snapshot": {
+          "round": 2,
+          "mode": "EXPLOIT",
+          "stance_counts": {
+            "BUY": 1,
+            "PASS": 2,
+            "HOLD": 1
+          },
+          "disagreement_score": 0.6471,
+          "convergence_delta": null,
+          "contested": [
+            {
+              "claim_id": "MOME-R2-2",
+              "owner": "momentum",
+              "for_lenses": [],
+              "against_lenses": [
+                "risk"
+              ],
+              "score": 1.0,
+              "rounds_contested": 1
+            },
+            {
+              "claim_id": "RISK-R2-3",
+              "owner": "risk",
+              "for_lenses": [],
+              "against_lenses": [
+                "momentum"
+              ],
+              "score": 1.0,
+              "rounds_contested": 1
+            },
+            {
+              "claim_id": "MOME-R2-4",
+              "owner": "momentum",
+              "for_lenses": [],
+              "against_lenses": [
+                "quality",
+                "fundamentalist",
+                "risk"
+              ],
+              "score": 0.9,
+              "rounds_contested": 1
+            },
+            {
+              "claim_id": "QUAL-R2-3",
+              "owner": "quality",
+              "for_lenses": [],
+              "against_lenses": [
+                "momentum",
+                "fundamentalist"
+              ],
+              "score": 0.9,
+              "rounds_contested": 1
+            },
+            {
+              "claim_id": "FUND-R2-2",
+              "owner": "fundamentalist",
+              "for_lenses": [],
+              "against_lenses": [
+                "momentum"
+              ],
+              "score": 0.9,
+              "rounds_contested": 1
+            },
+            {
+              "claim_id": "FUND-R2-1",
+              "owner": "fundamentalist",
+              "for_lenses": [],
+              "against_lenses": [
+                "momentum"
+              ],
+              "score": 0.9,
+              "rounds_contested": 1
+            },
+            {
+              "claim_id": "RISK-R2-4",
+              "owner": "risk",
+              "for_lenses": [],
+              "against_lenses": [
+                "momentum",
+                "fundamentalist"
+              ],
+              "score": 0.9,
+              "rounds_contested": 1
+            },
+            {
+              "claim_id": "FUND-R2-5",
+              "owner": "fundamentalist",
+              "for_lenses": [],
+              "against_lenses": [
+                "risk",
+                "quality"
+              ],
+              "score": 0.9,
+              "rounds_contested": 1
+            },
+            {
+              "claim_id": "QUAL-R2-1",
+              "owner": "quality",
+              "for_lenses": [],
+              "against_lenses": [
+                "momentum"
+              ],
+              "score": 0.9,
+              "rounds_contested": 1
+            }
+          ],
+          "converged": false,
+          "coverage_notes": []
+        }
+      },
+      "findings": {},
+      "positions": {
+        "fundamentalist": {
+          "lens": "fundamentalist",
+          "round": 3,
+          "stance": "BUY",
+          "confidence": 0.6,
+          "claims": [
+            {
+              "id": "FUND-R3-1",
+              "text": "The business is showing early signs of a fundamental turnaround under new leadership, with the first 'clean' quarter reported and verified customer count growing again.",
+              "direction": "BULL",
+              "importance": 5,
+              "evidence_ids": [
+                "EV-5"
+              ]
+            },
+            {
+              "id": "FUND-R3-2",
+              "text": "The closure of the SEC investigation and the cleanup of customer metrics remove significant uncertainty, allowing for a more reliable assessment of the company's intrinsic value.",
+              "direction": "BULL",
+              "importance": 4,
+              "evidence_ids": [
+                "EV-5",
+                "EV-6"
+              ]
+            },
+            {
+              "id": "FUND-R3-3",
+              "text": "A history of accounting irregularities and leadership instability creates significant skepticism about the quality and predictability of future cash flows, warranting a higher margin of safety.",
+              "direction": "BEAR",
+              "importance": 4,
+              "evidence_ids": [
+                "EV-3",
+                "EV-4",
+                "EV-6",
+                "EV-8"
+              ]
+            },
+            {
+              "id": "FUND-R3-4",
+              "text": "The company possesses a potentially durable competitive advantage with a differentiated AI feature that competitors have failed to replicate, which could drive long-term value creation.",
+              "direction": "BULL",
+              "importance": 3,
+              "evidence_ids": [
+                "EV-5"
+              ]
+            }
+          ],
+          "responses": [
+            {
+              "claim_id": "MOME-R2-4",
+              "action": "INCORPORATE",
+              "text": "I agree. The 'clean' revenue report and renewed growth in verified customer count are the first tangible data points suggesting a fundamental re-acceleration. While I don't focus on market trends, these underlying business metrics are what truly matter for long-term value.",
+              "evidence_ids": [
+                "EV-5"
+              ]
+            },
+            {
+              "claim_id": "QUAL-R2-3",
+              "action": "PARTIAL",
+              "text": "I agree that the past deceleration from 45% to 32% and accounting issues are serious concerns that speak to the historical quality of the business. However, the most recent 'clean' quarter and renewed customer growth suggest these issues may be in the past, though it requires continued monitoring.",
+              "evidence_ids": [
+                "EV-8",
+                "EV-5"
+              ]
+            },
+            {
+              "claim_id": "FUND-R2-2",
+              "action": "CONCEDE",
+              "text": "This is a valid and critical point. The history of unreliable reporting makes it difficult to build a confident long-term model. My current 'Buy' stance is predicated on the belief that the new CEO has rectified this, but it requires a higher margin of safety and close scrutiny of the next few quarters.",
+              "evidence_ids": [
+                "EV-3",
+                "EV-4",
+                "EV-6"
+              ]
+            },
+            {
+              "claim_id": "FUND-R2-1",
+              "action": "CONCEDE",
+              "text": "I agree. The closure of the SEC investigation is a significant de-risking event. It removes a major overhang and allows us to focus on the underlying business fundamentals, which appear to be improving.",
+              "evidence_ids": [
+                "EV-5"
+              ]
+            },
+            {
+              "claim_id": "RISK-R2-4",
+              "action": "INCORPORATE",
+              "text": "Correct. The new CEO and the closure of the SEC investigation are positive steps. However, they don't erase the past. The business must now demonstrate a consistent track record of transparent reporting and stable execution to prove the turnaround is real.",
+              "evidence_ids": [
+                "EV-5",
+                "EV-6"
+              ]
+            },
+            {
+              "claim_id": "FUND-R2-5",
+              "action": "CONCEDE",
+              "text": "Yes, the CTO's departure after only 8 months was a significant red flag regarding execution and stability. This historical instability is a key reason for my cautious confidence level, even with the recent positive developments.",
+              "evidence_ids": [
+                "EV-8"
+              ]
+            }
+          ],
+          "risks": [
+            "The recent 'clean' quarter could be a one-off event, with the company reverting to inconsistent reporting or decelerating growth.",
+            "The new management fails to execute, and the cultural issues that led to past problems persist.",
+            "The differentiated AI feature proves less durable than anticipated as competitors eventually catch up, eroding margins."
+          ],
+          "changed_from_prior": true,
+          "change_reason": "I was previously on the sidelines due to the SEC investigation and unreliable numbers. The closure of the investigation and the first 'clean' quarter under a new CEO provide just enough tangible evidence of a fundamental turnaround to warrant a cautious entry, assuming the valuation provides a sufficient margin of safety for the execution risks.",
+          "summary": "I am upgrading my stance to a cautious BUY. The core of my thesis rests on the evidence of a genuine operational turnaround led by a new CEO. The closure of the SEC investigation removes a critical uncertainty, and the first 'clean' financial report with renewed, verified customer growth provides a tangible data point to begin valuing the business again. While the company's history of poor reporting and leadership instability warrants significant skepticism and a high margin of safety, the current evidence suggests the business's intrinsic value is beginning to recover and may not be fully reflected in the price.",
+          "usage": {
+            "input_tokens": 1658,
+            "output_tokens": 1776,
+            "model": "gemini-2.5-pro",
+            "kind": "argue"
+          }
+        },
+        "momentum": {
+          "lens": "momentum",
+          "round": 3,
+          "stance": "BUY",
+          "confidence": 0.8,
+          "claims": [
+            {
+              "id": "MOME-R3-1",
+              "text": "The stock has established a clear bottom and is now in the early stages of a new uptrend, confirmed by the recent 'clean quarter' news acting as a catalyst.",
+              "direction": "BULL",
+              "importance": 5,
+              "evidence_ids": [
+                "EV-5",
+                "EV-6"
+              ]
+            },
+            {
+              "id": "MOME-R3-2",
+              "text": "The market is rewarding the company for resolving major uncertainties. The closure of the SEC investigation and verified customer growth removes a significant overhang that was depressing the price.",
+              "direction": "BULL",
+              "importance": 4,
+              "evidence_ids": [
+                "EV-5",
+                "EV-6"
+              ]
+            },
+            {
+              "id": "MOME-R3-3",
+              "text": "The narrative is shifting from 'accounting scandal' to 'AI turnaround story,' which attracts new buyers and can fuel a sustained move higher. The differentiated AI feature is a key part of this new narrative.",
+              "direction": "BULL",
+              "importance": 3,
+              "evidence_ids": [
+                "EV-5"
+              ]
+            }
+          ],
+          "responses": [
+            {
+              "claim_id": "MOME-R2-2",
+              "action": "INCORPORATE",
+              "text": "I agree. The past price action from $88 down to $41 reflected this uncertainty. The market was telling us something was wrong. Now, the market is telling us things are getting better with the SEC investigation closed and customer numbers re-verified (EV-5, EV-6).",
+              "evidence_ids": []
+            },
+            {
+              "claim_id": "RISK-R2-3",
+              "action": "REBUT",
+              "text": "This is a backward-looking concern. The market punished the stock for this already. The recent price action suggests the market is now focused on the turnaround, the new CEO, and the clean results (EV-5). The trend has changed.",
+              "evidence_ids": []
+            },
+            {
+              "claim_id": "MOME-R2-4",
+              "action": "REBUT",
+              "text": "The market has moved on. The CTO departure was a year ago (EV-8). The stock has since bottomed and is now reacting to new information: a clean quarter, verified customer growth, and a closed SEC investigation (EV-5). That's the catalyst for the new trend.",
+              "evidence_ids": []
+            },
+            {
+              "claim_id": "QUAL-R2-3",
+              "action": "REBUT",
+              "text": "You're looking in the rearview mirror. The market priced in that deceleration and the accounting issues, hence the drop to $41 (EV-6). The *new* information is a clean quarter and a return to customer growth, which is what the price is reacting to now (EV-5). The trend is my friend, and it has reversed.",
+              "evidence_ids": []
+            },
+            {
+              "claim_id": "FUND-R2-2",
+              "action": "PARTIAL",
+              "text": "Yes, growth decelerated, and the stock was punished for it. But the market is forward-looking. The recent 'clean quarter' and verified customer growth (EV-5) provide a new base from which the trend can build. The rate of change is what matters, and it just inflected positive.",
+              "evidence_ids": []
+            },
+            {
+              "claim_id": "FUND-R2-1",
+              "action": "INCORPORATE",
+              "text": "Correct, the inconsistency was a major reason the stock was a 'falling knife' and un-investable. But now we have a 'clean quarter' with 'verified enterprise customers growing again' (EV-5). The market sees this as the bottom, and the price is confirming it.",
+              "evidence_ids": []
+            },
+            {
+              "claim_id": "RISK-R2-4",
+              "action": "REBUT",
+              "text": "The market doesn't care about the past if the future looks different. The stock was in the penalty box for these issues. The recent news of a clean quarter, a closed SEC investigation, and a new AI feature (EV-5) is the 'all clear' signal the market was waiting for. The price is confirming this.",
+              "evidence_ids": []
+            },
+            {
+              "claim_id": "QUAL-R2-1",
+              "action": "PARTIAL",
+              "text": "I agree that the past undermines trust, which is why the stock was crushed. However, price leads fundamentals. The market is now telling us that the new CEO, the clean quarter, and the closed SEC investigation (EV-5) are enough to start trusting the story again. I'll trust the price action.",
+              "evidence_ids": []
+            }
+          ],
+          "risks": [
+            "The nascent uptrend could be a 'dead cat bounce' if the next earnings report shows a return to slowing growth or other operational issues.",
+            "Broader market weakness could overwhelm this single-stock turnaround story, causing the stock to break its new support levels.",
+            "The positive sentiment from the 'clean quarter' could fade quickly, revealing that there isn't enough new demand to sustain a move higher."
+          ],
+          "changed_from_prior": false,
+          "change_reason": "My stance remains a BUY. The new evidence and arguments from other analysts reinforce my view. The historical issues they cite are exactly what caused the stock to bottom, creating the current opportunity. The most recent evidence (EV-5) confirms a positive inflection point, which is a classic technical buy signal.",
+          "summary": "The market has spoken. After a brutal downtrend caused by accounting issues and slowing growth, NovaTech has bottomed. The recent news of a 'clean quarter,' verified customer growth, and the closure of the SEC investigation (EV-5) is the catalyst for a new uptrend. The story has changed from 'falling knife' to 'turnaround,' and the price is confirming it. The time to buy is at the beginning of a new trend, not after it's already run. I'm buying the inflection.",
+          "usage": {
+            "input_tokens": 1711,
+            "output_tokens": 1955,
+            "model": "gemini-2.5-pro",
+            "kind": "argue"
+          }
+        },
+        "risk": {
+          "lens": "risk",
+          "round": 3,
+          "stance": "PASS",
+          "confidence": 0.9,
+          "claims": [
+            {
+              "id": "RISK-R3-1",
+              "text": "A formal SEC investigation into revenue recognition practices creates an unquantifiable tail risk of fines, further restatements, or even delisting, making the stock un-investable regardless of recent operational improvements.",
+              "direction": "BEAR",
+              "importance": 5,
+              "evidence_ids": [
+                "EV-14",
+                "EV-12",
+                "EV-6"
+              ]
+            },
+            {
+              "id": "RISK-R3-2",
+              "text": "The abrupt resignation of the CFO immediately before the announcement of a formal SEC investigation is a critical red flag, suggesting deep-seated accounting and governance issues that are likely not fully priced in.",
+              "direction": "BEAR",
+              "importance": 5,
+              "evidence_ids": [
+                "EV-13",
+                "EV-14"
+              ]
+            },
+            {
+              "id": "RISK-R3-3",
+              "text": "While the customer count has been 're-evaluated' to 312, the history of misreporting and the need for such clean-ups indicates systemic weakness in internal controls, which could lead to future negative surprises.",
+              "direction": "BEAR",
+              "importance": 4,
+              "evidence_ids": [
+                "EV-3",
+                "EV-6",
+                "EV-9",
+                "EV-12"
+              ]
+            },
+            {
+              "id": "RISK-R3-4",
+              "text": "The persistent executive turnover, including a CTO after 8 months and now a CFO, signals instability and potential internal conflict that could derail any product or sales momentum.",
+              "direction": "BEAR",
+              "importance": 3,
+              "evidence_ids": [
+                "EV-13",
+                "EV-8"
+              ]
+            }
+          ],
+          "responses": [
+            {
+              "claim_id": "MOME-R2-2",
+              "action": "REBUT",
+              "text": "I must correct this claim as it is factually inaccurate based on the evidence. The SEC investigation is not closed; a formal investigation was opened on February 25, 2025 (EV-14). This is a significant, ongoing risk, not a resolved issue.",
+              "evidence_ids": [
+                "EV-14"
+              ]
+            },
+            {
+              "claim_id": "RISK-R2-3",
+              "action": "INCORPORATE",
+              "text": "I agree. The abrupt CFO departure is a classic signal of deeper problems, especially given the timing right before the SEC investigation announcement. This is a core pillar of my bearish thesis.",
+              "evidence_ids": [
+                "EV-13",
+                "EV-14"
+              ]
+            },
+            {
+              "claim_id": "MOME-R2-4",
+              "action": "REBUT",
+              "text": "Calling the recent quarter 'clean' is premature and ignores the context. The revenue is 'clean' only after a prior restatement, and the customer count is 'verified' only after being inflated. These are not signs of a healthy re-acceleration but rather a painful, and still incomplete, cleanup operation under the shadow of an SEC investigation.",
+              "evidence_ids": [
+                "EV-12",
+                "EV-6",
+                "EV-14"
+              ]
+            },
+            {
+              "claim_id": "RISK-R2-4",
+              "action": "INCORPORATE",
+              "text": "Agreed. The pattern of executive departures is a significant concern that points to fundamental instability within the organization, undermining confidence in any turnaround narrative.",
+              "evidence_ids": [
+                "EV-8",
+                "EV-13"
+              ]
+            },
+            {
+              "claim_id": "FUND-R2-5",
+              "action": "REBUT",
+              "text": "The concept of a 'clean quarter' is misleading. It is impossible to have confidence in the integrity of any",
+              "evidence_ids": []
+            }
+          ],
+          "risks": [],
+          "changed_from_prior": false,
+          "change_reason": "",
+          "summary": "",
+          "usage": {
+            "input_tokens": 1707,
+            "output_tokens": 1496,
+            "model": "gemini-2.5-pro",
+            "kind": "argue"
+          }
+        }
+      },
+      "state": {
+        "round": 3,
+        "mode": "EXPLOIT",
+        "stance_counts": {
+          "BUY": 2,
+          "PASS": 2
+        },
+        "disagreement_score": 0.4303,
+        "convergence_delta": -0.2168,
+        "contested": [
+          {
+            "claim_id": "FUND-R3-2",
+            "owner": "fundamentalist",
+            "for_lenses": [],
+            "against_lenses": [
+              "risk"
+            ],
+            "score": 1.0,
+            "rounds_contested": 1
+          },
+          {
+            "claim_id": "RISK-R3-1",
+            "owner": "risk",
+            "for_lenses": [],
+            "against_lenses": [
+              "fundamentalist",
+              "momentum"
+            ],
+            "score": 1.0,
+            "rounds_contested": 1
+          },
+          {
+            "claim_id": "MOME-R3-2",
+            "owner": "momentum",
+            "for_lenses": [],
+            "against_lenses": [
+              "risk"
+            ],
+            "score": 1.0,
+            "rounds_contested": 1
+          },
+          {
+            "claim_id": "RISK-R3-2",
+            "owner": "risk",
+            "for_lenses": [],
+            "against_lenses": [
+              "fundamentalist"
+            ],
+            "score": 0.9,
+            "rounds_contested": 1
+          },
+          {
+            "claim_id": "QUAL-R2-3",
+            "owner": "quality",
+            "for_lenses": [],
+            "against_lenses": [
+              "momentum"
+            ],
+            "score": 0.6,
+            "rounds_contested": 2
+          }
+        ],
+        "converged": false,
+        "coverage_notes": []
+      }
+    },
+    {
+      "round": 4,
+      "mode": "EXPLOIT",
+      "budget_decision": {
+        "round": 4,
+        "mode": "EXPLOIT",
+        "selected_lenses": [
+          "fundamentalist",
+          "momentum",
+          "quality",
+          "risk"
+        ],
+        "tier_by_lens": {
+          "fundamentalist": "pro",
+          "momentum": "pro",
+          "quality": "pro",
+          "risk": "pro"
+        },
+        "research_by_lens": {
+          "fundamentalist": 0,
+          "momentum": 0,
+          "quality": 0,
+          "risk": 0
+        },
+        "argue_by_lens": {
+          "fundamentalist": 2593,
+          "momentum": 2593,
+          "quality": 1024,
+          "risk": 3457
+        },
+        "transfers": [
+          {
+            "src": "research",
+            "dst": "debate",
+            "tokens": 0
+          }
+        ],
+        "rationale": "exploit: 5 contested claims (disagreement=0.43); pro tier for parties, budget weighted by contested involvement, research pool folded into debate",
+        "state_snapshot": {
+          "round": 3,
+          "mode": "EXPLOIT",
+          "stance_counts": {
+            "BUY": 2,
+            "PASS": 2
+          },
+          "disagreement_score": 0.4303,
+          "convergence_delta": -0.2168,
+          "contested": [
+            {
+              "claim_id": "FUND-R3-2",
+              "owner": "fundamentalist",
+              "for_lenses": [],
+              "against_lenses": [
+                "risk"
+              ],
+              "score": 1.0,
+              "rounds_contested": 1
+            },
+            {
+              "claim_id": "RISK-R3-1",
+              "owner": "risk",
+              "for_lenses": [],
+              "against_lenses": [
+                "fundamentalist",
+                "momentum"
+              ],
+              "score": 1.0,
+              "rounds_contested": 1
+            },
+            {
+              "claim_id": "MOME-R3-2",
+              "owner": "momentum",
+              "for_lenses": [],
+              "against_lenses": [
+                "risk"
+              ],
+              "score": 1.0,
+              "rounds_contested": 1
+            },
+            {
+              "claim_id": "RISK-R3-2",
+              "owner": "risk",
+              "for_lenses": [],
+              "against_lenses": [
+                "fundamentalist"
+              ],
+              "score": 0.9,
+              "rounds_contested": 1
+            },
+            {
+              "claim_id": "QUAL-R2-3",
+              "owner": "quality",
+              "for_lenses": [],
+              "against_lenses": [
+                "momentum"
+              ],
+              "score": 0.6,
+              "rounds_contested": 2
+            }
+          ],
+          "converged": false,
+          "coverage_notes": []
+        }
+      },
+      "findings": {},
+      "positions": {},
+      "state": {
+        "round": 4,
+        "mode": "EXPLOIT",
+        "stance_counts": {
+          "BUY": 2,
+          "PASS": 2
+        },
+        "disagreement_score": 0.4303,
+        "convergence_delta": 0.0,
+        "contested": [
+          {
+            "claim_id": "FUND-R3-2",
+            "owner": "fundamentalist",
+            "for_lenses": [],
+            "against_lenses": [
+              "risk"
+            ],
+            "score": 1.0,
+            "rounds_contested": 2
+          },
+          {
+            "claim_id": "RISK-R3-1",
+            "owner": "risk",
+            "for_lenses": [],
+            "against_lenses": [
+              "fundamentalist",
+              "momentum"
+            ],
+            "score": 1.0,
+            "rounds_contested": 2
+          },
+          {
+            "claim_id": "MOME-R3-2",
+            "owner": "momentum",
+            "for_lenses": [],
+            "against_lenses": [
+              "risk"
+            ],
+            "score": 1.0,
+            "rounds_contested": 2
+          },
+          {
+            "claim_id": "RISK-R3-2",
+            "owner": "risk",
+            "for_lenses": [],
+            "against_lenses": [
+              "fundamentalist"
+            ],
+            "score": 0.9,
+            "rounds_contested": 2
+          },
+          {
+            "claim_id": "QUAL-R2-3",
+            "owner": "quality",
+            "for_lenses": [],
+            "against_lenses": [
+              "momentum"
+            ],
+            "score": 0.6,
+            "rounds_contested": 2
+          }
+        ],
+        "converged": false,
+        "coverage_notes": []
+      }
+    }
+  ],
+  "resolutions": [
+    {
+      "claim_id": "FUND-R3-2",
+      "method": "TIEBREAKER",
+      "verdict": "The risk-focused objections are better supported by the provided claims.",
+      "reasoning": "The fundamentalist claim rests on the closure of an SEC investigation and a data cleanup (EV-5, EV-6) as definitive resolutions of uncertainty. However, the risk claims (RISK-R3-1 through R3-4) correctly identify these events not as resolutions, but as symptoms of deeper, unresolved issues. The abrupt CFO resignation preceding the investigation (RISK-R3-2), the history of misreporting necessitating a cleanup (RISK-R3-3), and persistent executive turnover (RISK-R3-4) collectively point to systemic weaknesses in governance, internal controls, and stability. These factors introduce significant, unquantifiable risks that undermine the reliability of any current intrinsic value assessment. The closure of one investigation does not erase the conditions that prompted it, nor does it guarantee future compliance or prevent further negative surprises stemming from the same root causes.",
+      "usage": {
+        "input_tokens": 312,
+        "output_tokens": 623,
+        "model": "gemini-2.5-pro",
+        "kind": "tiebreak"
+      }
+    },
+    {
+      "claim_id": "RISK-R3-1",
+      "method": "TIEBREAKER",
+      "verdict": "The objections from the fundamentalist and momentum investors are better supported by the provided claims.",
+      "reasoning": "The core premise of the contested claim from the risk side is that a formal SEC investigation creates an unquantifiable tail risk. However, two separate claims from the objectors (FUND-R3-2 and MOME-R3-2) explicitly state that the SEC investigation has been closed. This directly refutes the foundational assumption of the risk argument. While past accounting irregularities warrant caution and a higher margin of safety (as noted in FUND-R3-3), the closure of the formal investigation moves the risk from 'unquantifiable' to 'quantifiable and receding.' The objectors provide a more current and complete picture, citing the resolution of the primary risk factor and presenting evidence of a subsequent operational turnaround and positive market reaction.",
+      "usage": {
+        "input_tokens": 435,
+        "output_tokens": 563,
+        "model": "gemini-2.5-pro",
+        "kind": "tiebreak"
+      }
+    },
+    {
+      "claim_id": "MOME-R3-2",
+      "method": "TIEBREAKER",
+      "verdict": "The risk side is better supported.",
+      "reasoning": "The momentum case rests on the resolution of two specific uncertainties: the SEC investigation and customer count. While these are positive developments, they do not negate the underlying issues that caused them. The risk side correctly identifies that the *reasons* for the investigation and the customer restatement—namely, poor internal controls, questionable accounting practices, and high executive turnover (CFO, CTO)—are systemic weaknesses. These root causes persist beyond the closure of a single investigation and represent a pattern of governance failure. The abrupt CFO resignation preceding the investigation is a particularly strong indicator of deep-seated problems. Therefore, the risk of future negative surprises stemming from these unresolved foundational issues outweighs the short-term positive sentiment from clearing specific, recent hurdles.",
+      "usage": {
+        "input_tokens": 312,
+        "output_tokens": 631,
+        "model": "gemini-2.5-pro",
+        "kind": "tiebreak"
+      }
+    },
+    {
+      "claim_id": "RISK-R3-2",
+      "method": "FLAG_UNRESOLVED",
+      "verdict": "",
+      "reasoning": "contested by ['fundamentalist'] vs risk; beyond tiebreak cap (3), flagged for human review",
+      "usage": null
+    },
+    {
+      "claim_id": "QUAL-R2-3",
+      "method": "FLAG_UNRESOLVED",
+      "verdict": "",
+      "reasoning": "contested by ['momentum'] vs quality; beyond tiebreak cap (3), flagged for human review",
+      "usage": null
+    }
+  ],
+  "memo": {
+    "recommendation": "WAIT",
+    "headline": "WAIT for Evidence of Sustained Turnaround; Systemic Risks Outweigh Positive Catalysts",
+    "confidence": 0.75,
+    "position_guidance": "",
+    "verdicts": [
+      {
+        "lens": "fundamentalist",
+        "stance": "BUY",
+        "confidence": 0.6,
+        "summary": "I am upgrading my stance to a cautious BUY. The core of my thesis rests on the evidence of a genuine operational turnaround led by a new CEO. The closure of the SEC investigation removes a critical uncertainty, and the first 'clean' financial report with renewed, verified customer growth provides a tangible data point to begin valuing the business again. While the company's history of poor reporting and leadership instability warrants significant skepticism and a high margin of safety, the current evidence suggests the business's intrinsic value is beginning to recover and may not be fully reflected in the price."
+      },
+      {
+        "lens": "momentum",
+        "stance": "BUY",
+        "confidence": 0.8,
+        "summary": "The market has spoken. After a brutal downtrend caused by accounting issues and slowing growth, NovaTech has bottomed. The recent news of a 'clean quarter,' verified customer growth, and the closure of the SEC investigation (EV-5) is the catalyst for a new uptrend. The story has changed from 'falling knife' to 'turnaround,' and the price is confirming it. The time to buy is at the beginning of a new trend, not after it's already run. I'm buying the inflection."
+      },
+      {
+        "lens": "quality",
+        "stance": "PASS",
+        "confidence": 0.7,
+        "summary": "The recent history of revenue restatements and inconsistent customer reporting significantly undermines trust in NovaTech's management and financial transparency, making it difficult to assess the true quality of the business."
+      },
+      {
+        "lens": "risk",
+        "stance": "PASS",
+        "confidence": 0.9,
+        "summary": "A formal SEC investigation into revenue recognition practices creates an unquantifiable tail risk of fines, further restatements, or even delisting, making the stock un-investable regardless of recent operational improvements."
+      }
+    ],
+    "consensus_claim_ids": [
+      "FUND-R3-1",
+      "FUND-R3-3",
+      "FUND-R3-4",
+      "MOME-R3-1",
+      "MOME-R3-3",
+      "QUAL-R2-1",
+      "QUAL-R2-2",
+      "QUAL-R2-4",
+      "RISK-R3-3",
+      "RISK-R3-4"
+    ],
+    "resolved": [
+      {
+        "claim_id": "FUND-R3-2",
+        "method": "TIEBREAKER",
+        "verdict": "The risk-focused objections are better supported by the provided claims.",
+        "reasoning": "The fundamentalist claim rests on the closure of an SEC investigation and a data cleanup (EV-5, EV-6) as definitive resolutions of uncertainty. However, the risk claims (RISK-R3-1 through R3-4) correctly identify these events not as resolutions, but as symptoms of deeper, unresolved issues. The abrupt CFO resignation preceding the investigation (RISK-R3-2), the history of misreporting necessitating a cleanup (RISK-R3-3), and persistent executive turnover (RISK-R3-4) collectively point to systemic weaknesses in governance, internal controls, and stability. These factors introduce significant, unquantifiable risks that undermine the reliability of any current intrinsic value assessment. The closure of one investigation does not erase the conditions that prompted it, nor does it guarantee future compliance or prevent further negative surprises stemming from the same root causes.",
+        "usage": {
+          "input_tokens": 312,
+          "output_tokens": 623,
+          "model": "gemini-2.5-pro",
+          "kind": "tiebreak"
+        }
+      },
+      {
+        "claim_id": "RISK-R3-1",
+        "method": "TIEBREAKER",
+        "verdict": "The objections from the fundamentalist and momentum investors are better supported by the provided claims.",
+        "reasoning": "The core premise of the contested claim from the risk side is that a formal SEC investigation creates an unquantifiable tail risk. However, two separate claims from the objectors (FUND-R3-2 and MOME-R3-2) explicitly state that the SEC investigation has been closed. This directly refutes the foundational assumption of the risk argument. While past accounting irregularities warrant caution and a higher margin of safety (as noted in FUND-R3-3), the closure of the formal investigation moves the risk from 'unquantifiable' to 'quantifiable and receding.' The objectors provide a more current and complete picture, citing the resolution of the primary risk factor and presenting evidence of a subsequent operational turnaround and positive market reaction.",
+        "usage": {
+          "input_tokens": 435,
+          "output_tokens": 563,
+          "model": "gemini-2.5-pro",
+          "kind": "tiebreak"
+        }
+      },
+      {
+        "claim_id": "MOME-R3-2",
+        "method": "TIEBREAKER",
+        "verdict": "The risk side is better supported.",
+        "reasoning": "The momentum case rests on the resolution of two specific uncertainties: the SEC investigation and customer count. While these are positive developments, they do not negate the underlying issues that caused them. The risk side correctly identifies that the *reasons* for the investigation and the customer restatement—namely, poor internal controls, questionable accounting practices, and high executive turnover (CFO, CTO)—are systemic weaknesses. These root causes persist beyond the closure of a single investigation and represent a pattern of governance failure. The abrupt CFO resignation preceding the investigation is a particularly strong indicator of deep-seated problems. Therefore, the risk of future negative surprises stemming from these unresolved foundational issues outweighs the short-term positive sentiment from clearing specific, recent hurdles.",
+        "usage": {
+          "input_tokens": 312,
+          "output_tokens": 631,
+          "model": "gemini-2.5-pro",
+          "kind": "tiebreak"
+        }
+      }
+    ],
+    "unresolved": [
+      {
+        "claim_id": "RISK-R3-2",
+        "method": "FLAG_UNRESOLVED",
+        "verdict": "",
+        "reasoning": "contested by ['fundamentalist'] vs risk; beyond tiebreak cap (3), flagged for human review",
+        "usage": null
+      },
+      {
+        "claim_id": "QUAL-R2-3",
+        "method": "FLAG_UNRESOLVED",
+        "verdict": "",
+        "reasoning": "contested by ['momentum'] vs quality; beyond tiebreak cap (3), flagged for human review",
+        "usage": null
+      }
+    ],
+    "reasoning_trace": [
+      {
+        "round": 3,
+        "lens": "fundamentalist",
+        "claim_id": "FUND-R3-1",
+        "note": "The committee acknowledges the bull case hinges on the early signs of a turnaround, including a 'clean' quarter and renewed customer growth under new leadership."
+      },
+      {
+        "round": 3,
+        "lens": "momentum",
+        "claim_id": "MOME-R3-1",
+        "note": "The positive price action and narrative shift from 'scandal' to 'turnaround' are noted as powerful short-term drivers."
+      },
+      {
+        "round": 3,
+        "lens": "risk",
+        "claim_id": "RISK-R3-2",
+        "note": "The unresolved disagreement over the significance of the CFO's resignation is a critical factor. The risk lens views this as a major red flag for underlying governance issues, which heavily influenced the final recommendation."
+      },
+      {
+        "round": 3,
+        "lens": "committee",
+        "claim_id": "FUND-R3-2",
+        "note": "The resolution of this claim against the fundamentalist view was pivotal. The committee agreed with the risk lens that closing one SEC investigation does not resolve the systemic weaknesses that prompted it, undermining the 'uncertainty is removed' thesis."
+      },
+      {
+        "round": 3,
+        "lens": "committee",
+        "claim_id": "MOME-R3-2",
+        "note": "Similarly, the resolution of this claim against the momentum view was key. The committee sided with the risk lens, concluding that the market may be prematurely rewarding the resolution of symptoms rather than the cure of underlying governance failures."
+      },
+      {
+        "round": 3,
+        "lens": "committee",
+        "claim_id": null,
+        "note": "The final recommendation is WAIT. While the positive catalysts are real, the debate resolution process consistently favored the risk-based arguments that deep, systemic issues in governance and internal controls remain. We require more than one 'clean' quarter to verify that the turnaround is sustainable and not just a temporary reprieve."
+      }
+    ],
+    "budget_summary": {
+      "total": 60000,
+      "spent": 44869,
+      "pools": {
+        "research": {
+          "size": 6904,
+          "spent": 6904,
+          "remaining": 0
+        },
+        "debate": {
+          "size": 44096,
+          "spent": 33387,
+          "remaining": 10709
+        },
+        "synthesis": {
+          "size": 9000,
+          "spent": 4578,
+          "remaining": 4422
+        }
+      }
+    },
+    "data_as_of": "2026-08-19T22:24:21.084605+00:00"
+  },
+  "totals": {
+    "total": 60000,
+    "spent": 44869,
+    "pools": {
+      "research": {
+        "size": 6904,
+        "spent": 6904,
+        "remaining": 0
+      },
+      "debate": {
+        "size": 44096,
+        "spent": 33387,
+        "remaining": 10709
+      },
+      "synthesis": {
+        "size": 9000,
+        "spent": 4578,
+        "remaining": 4422
+      }
+    },
+    "evidence_count": 14,
+    "budget_history": [
+      {
+        "op": "reserve",
+        "pool": "research",
+        "lens": "fundamentalist",
+        "kind": "plan",
+        "requested": 2700,
+        "granted": 2700
+      },
+      {
+        "op": "reserve",
+        "pool": "research",
+        "lens": "momentum",
+        "kind": "plan",
+        "requested": 2700,
+        "granted": 2700
+      },
+      {
+        "op": "reserve",
+        "pool": "research",
+        "lens": "quality",
+        "kind": "plan",
+        "requested": 2700,
+        "granted": 2700
+      },
+      {
+        "op": "reserve",
+        "pool": "research",
+        "lens": "risk",
+        "kind": "plan",
+        "requested": 2700,
+        "granted": 2700
+      },
+      {
+        "op": "commit",
+        "pool": "research",
+        "lens": "momentum",
+        "kind": "plan",
+        "reserved": 2700,
+        "actual": 743,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "momentum",
+        "kind": "argue",
+        "requested": 2887,
+        "granted": 2887
+      },
+      {
+        "op": "commit",
+        "pool": "research",
+        "lens": "quality",
+        "kind": "plan",
+        "reserved": 2700,
+        "actual": 892,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "quality",
+        "kind": "argue",
+        "requested": 2887,
+        "granted": 2887
+      },
+      {
+        "op": "commit",
+        "pool": "research",
+        "lens": "risk",
+        "kind": "plan",
+        "reserved": 2700,
+        "actual": 895,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "risk",
+        "kind": "argue",
+        "requested": 2887,
+        "granted": 2887
+      },
+      {
+        "op": "commit",
+        "pool": "research",
+        "lens": "fundamentalist",
+        "kind": "plan",
+        "reserved": 2700,
+        "actual": 928,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "fundamentalist",
+        "kind": "argue",
+        "requested": 2887,
+        "granted": 2887
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "fundamentalist",
+        "kind": "argue",
+        "reserved": 2887,
+        "actual": 1865,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "momentum",
+        "kind": "argue",
+        "reserved": 2887,
+        "actual": 1898,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "risk",
+        "kind": "argue",
+        "reserved": 2887,
+        "actual": 1851,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "quality",
+        "kind": "argue",
+        "reserved": 2887,
+        "actual": 1842,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "research",
+        "lens": "fundamentalist",
+        "kind": "plan",
+        "requested": 2181,
+        "granted": 2181
+      },
+      {
+        "op": "reserve",
+        "pool": "research",
+        "lens": "momentum",
+        "kind": "plan",
+        "requested": 2181,
+        "granted": 2181
+      },
+      {
+        "op": "reserve",
+        "pool": "research",
+        "lens": "quality",
+        "kind": "plan",
+        "requested": 2181,
+        "granted": 2181
+      },
+      {
+        "op": "reserve",
+        "pool": "research",
+        "lens": "risk",
+        "kind": "plan",
+        "requested": 2181,
+        "granted": 2181
+      },
+      {
+        "op": "commit",
+        "pool": "research",
+        "lens": "momentum",
+        "kind": "plan",
+        "reserved": 2181,
+        "actual": 743,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "momentum",
+        "kind": "argue",
+        "requested": 3512,
+        "granted": 3512
+      },
+      {
+        "op": "commit",
+        "pool": "research",
+        "lens": "quality",
+        "kind": "plan",
+        "reserved": 2181,
+        "actual": 879,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "quality",
+        "kind": "argue",
+        "requested": 3512,
+        "granted": 3512
+      },
+      {
+        "op": "commit",
+        "pool": "research",
+        "lens": "risk",
+        "kind": "plan",
+        "reserved": 2181,
+        "actual": 896,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "risk",
+        "kind": "argue",
+        "requested": 3512,
+        "granted": 3512
+      },
+      {
+        "op": "commit",
+        "pool": "research",
+        "lens": "fundamentalist",
+        "kind": "plan",
+        "reserved": 2181,
+        "actual": 928,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "fundamentalist",
+        "kind": "argue",
+        "requested": 3512,
+        "granted": 3512
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "momentum",
+        "kind": "argue",
+        "reserved": 3512,
+        "actual": 2337,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "fundamentalist",
+        "kind": "argue",
+        "reserved": 3512,
+        "actual": 2360,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "risk",
+        "kind": "argue",
+        "reserved": 3512,
+        "actual": 2324,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "quality",
+        "kind": "argue",
+        "reserved": 3512,
+        "actual": 2295,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "requested": 1156,
+        "granted": 1156
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "reserved": 1156,
+        "actual": 231,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "requested": 1121,
+        "granted": 1121
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "reserved": 1121,
+        "actual": 190,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "requested": 1128,
+        "granted": 1128
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "reserved": 1128,
+        "actual": 203,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "requested": 1129,
+        "granted": 1129
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "reserved": 1129,
+        "actual": 209,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "requested": 1140,
+        "granted": 1140
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "reserved": 1140,
+        "actual": 184,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "requested": 1166,
+        "granted": 1166
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "reserved": 1166,
+        "actual": 234,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "requested": 1117,
+        "granted": 1117
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "reserved": 1117,
+        "actual": 153,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "requested": 1146,
+        "granted": 1146
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "reserved": 1146,
+        "actual": 231,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "transfer",
+        "src": "research",
+        "dst": "debate",
+        "tokens": 11096
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "fundamentalist",
+        "kind": "argue",
+        "requested": 4690,
+        "granted": 4690
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "momentum",
+        "kind": "argue",
+        "requested": 6254,
+        "granted": 6254
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "quality",
+        "kind": "argue",
+        "requested": 3127,
+        "granted": 3127
+      },
+      {
+        "op": "release",
+        "pool": "debate",
+        "lens": "quality",
+        "kind": "argue",
+        "tokens": 3127
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "risk",
+        "kind": "argue",
+        "requested": 3909,
+        "granted": 3909
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "risk",
+        "kind": "argue",
+        "reserved": 3909,
+        "actual": 3203,
+        "model": "gemini-2.5-pro"
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "fundamentalist",
+        "kind": "argue",
+        "reserved": 4690,
+        "actual": 3434,
+        "model": "gemini-2.5-pro"
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "momentum",
+        "kind": "argue",
+        "reserved": 6254,
+        "actual": 3666,
+        "model": "gemini-2.5-pro"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "requested": 1149,
+        "granted": 1149
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "reserved": 1149,
+        "actual": 177,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "requested": 1154,
+        "granted": 1154
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "reserved": 1154,
+        "actual": 180,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "requested": 1141,
+        "granted": 1141
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "reserved": 1141,
+        "actual": 262,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "requested": 1145,
+        "granted": 1145
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "reserved": 1145,
+        "actual": 184,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "requested": 1146,
+        "granted": 1146
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "reserved": 1146,
+        "actual": 194,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "requested": 1157,
+        "granted": 1157
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "reserved": 1157,
+        "actual": 275,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "requested": 1146,
+        "granted": 1146
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "reserved": 1146,
+        "actual": 225,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "requested": 1160,
+        "granted": 1160
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "judge",
+        "kind": "judge",
+        "reserved": 1160,
+        "actual": 304,
+        "model": "gemini-2.5-flash"
+      },
+      {
+        "op": "transfer",
+        "src": "research",
+        "dst": "debate",
+        "tokens": 0
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "fundamentalist",
+        "kind": "argue",
+        "requested": 2593,
+        "granted": 2593
+      },
+      {
+        "op": "release",
+        "pool": "debate",
+        "lens": "fundamentalist",
+        "kind": "argue",
+        "tokens": 2593
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "momentum",
+        "kind": "argue",
+        "requested": 2593,
+        "granted": 2593
+      },
+      {
+        "op": "release",
+        "pool": "debate",
+        "lens": "momentum",
+        "kind": "argue",
+        "tokens": 2593
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "quality",
+        "kind": "argue",
+        "requested": 1024,
+        "granted": 1024
+      },
+      {
+        "op": "release",
+        "pool": "debate",
+        "lens": "quality",
+        "kind": "argue",
+        "tokens": 1024
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "risk",
+        "kind": "argue",
+        "requested": 3457,
+        "granted": 3457
+      },
+      {
+        "op": "release",
+        "pool": "debate",
+        "lens": "risk",
+        "kind": "argue",
+        "tokens": 3457
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "tiebreaker",
+        "kind": "tiebreak",
+        "requested": 2221,
+        "granted": 2221
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "tiebreaker",
+        "kind": "tiebreak",
+        "reserved": 2221,
+        "actual": 935,
+        "model": "gemini-2.5-pro"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "tiebreaker",
+        "kind": "tiebreak",
+        "requested": 2433,
+        "granted": 2433
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "tiebreaker",
+        "kind": "tiebreak",
+        "reserved": 2433,
+        "actual": 998,
+        "model": "gemini-2.5-pro"
+      },
+      {
+        "op": "reserve",
+        "pool": "debate",
+        "lens": "tiebreaker",
+        "kind": "tiebreak",
+        "requested": 2226,
+        "granted": 2226
+      },
+      {
+        "op": "commit",
+        "pool": "debate",
+        "lens": "tiebreaker",
+        "kind": "tiebreak",
+        "reserved": 2226,
+        "actual": 943,
+        "model": "gemini-2.5-pro"
+      },
+      {
+        "op": "reserve",
+        "pool": "synthesis",
+        "lens": "chair",
+        "kind": "synthesis",
+        "requested": 9000,
+        "granted": 9000
+      },
+      {
+        "op": "commit",
+        "pool": "synthesis",
+        "lens": "chair",
+        "kind": "synthesis",
+        "reserved": 9000,
+        "actual": 4578,
+        "model": "gemini-2.5-pro"
+      }
+    ]
+  }
+}

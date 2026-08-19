@@ -162,7 +162,7 @@ def _should_continue(state: GraphState) -> str:
         return "stop"
     if rt.round >= settings.min_rounds and rt.state and rt.state.converged:
         return "stop"
-    if rt.ledger.remaining(Pool.DEBATE) < settings.argue_floor_tokens * len(rt.lenses):
+    if rt.ledger.remaining(Pool.DEBATE) < settings.argue_realistic_tokens * 2:
         return "stop"
     return "continue"
 

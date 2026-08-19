@@ -37,6 +37,7 @@ class Settings(BaseSettings):
     exploit_argue_frac: float = 0.70
     plan_tokens: int = 768
     argue_floor_tokens: int = 1024
+    argue_realistic_tokens: int = 3600
     judge_tokens: int = 512
     tiebreak_tokens: int = 2048
 
