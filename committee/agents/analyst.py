@@ -39,9 +39,18 @@ def _system_for(lens: LensSpec) -> str:
 
 
 def _render_evidence(evidence: list[Evidence]) -> str:
+    """Most recent evidence first (targeted fetches), bounded by a char cap."""
     if not evidence:
         return "(no evidence gathered)"
-    return "\n".join(f"{ev.id} [{ev.source}:{ev.ref}] {ev.snippet}" for ev in evidence)
+    lines: list[str] = []
+    used = 0
+    for ev in reversed(evidence):
+        line = f"{ev.id} [{ev.source}:{ev.ref}] {ev.snippet}"
+        if used + len(line) > settings.evidence_render_char_cap:
+            break
+        lines.append(line)
+        used += len(line)
+    return "\n".join(reversed(lines))
 
 
 def render_others(positions: dict[str, AnalystPosition], exclude: str) -> str:

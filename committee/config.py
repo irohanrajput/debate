@@ -29,9 +29,9 @@ class Settings(BaseSettings):
 
     # per-round allocation fractions (of the relevant remaining pool)
     discover_research_frac: float = 0.60
-    discover_argue_frac: float = 0.40
+    discover_argue_frac: float = 0.35
     explore_research_frac: float = 0.60
-    explore_argue_frac: float = 0.50
+    explore_argue_frac: float = 0.70
     exploit_argue_frac: float = 0.70
     plan_tokens: int = 768
     argue_floor_tokens: int = 1024
@@ -54,7 +54,8 @@ class Settings(BaseSettings):
     tool_result_char_cap: int = 1500
     evidence_snippet_char_cap: int = 600
     others_summary_char_cap: int = 4000
-    retrieval_k: int = 8
+    evidence_render_char_cap: int = 4500
+    retrieval_k: int = 5
 
     # corpus / chunking
     chunk_chars: int = 2000
