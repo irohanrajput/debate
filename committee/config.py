@@ -26,8 +26,8 @@ class Settings(BaseSettings):
     max_tiebreaks: int = 3
 
     # budget pools (fractions of total)
-    research_pool_frac: float = 0.30
-    debate_pool_frac: float = 0.55
+    research_pool_frac: float = 0.20
+    debate_pool_frac: float = 0.65
     synthesis_pool_frac: float = 0.15
 
     # per-round allocation fractions (of the relevant remaining pool)
