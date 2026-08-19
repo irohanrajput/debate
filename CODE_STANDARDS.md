@@ -6,5 +6,5 @@
 - Separation of concerns: `evidence/`, `agents/`, `debate/`, `trace/`, `api` communicate ONLY through `models/` and injected dependencies. No cross-package internal imports.
 - No magic numbers or strings in code. Secrets in `.env`; every constant/threshold/model name in `committee/config.py` (`from committee.config import settings`).
 - Minimal comments: only non-obvious whys and gotchas.
-- Commits: one commit per concern (tools together, pub/sub separate, etc.). Never add Claude co-author lines.
+- Commits: one commit per concern (tools together, pub/sub separate, etc.).
 - No CI. Tests live in `tests/`, run with `poetry run pytest`.
