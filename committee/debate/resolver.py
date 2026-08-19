@@ -5,7 +5,7 @@ from pathlib import Path
 from pydantic import BaseModel
 
 from committee.config import settings
-from committee.debate.budget import Ledger, Pool
+from committee.debate.budget import Ledger, Pool, estimate_tokens
 from committee.llm.client import LLMProvider
 from committee.models import (
     AnalystPosition,
@@ -53,24 +53,26 @@ async def resolve_conflicts(
     Never averages."""
     resolutions: list[Resolution] = []
     template = (_PROMPTS / "tiebreak_user.md").read_text()
+    system = "You are a neutral senior investment adjudicator."
     for claim in contested:
-        pool = Pool.DEBATE if ledger.remaining(Pool.DEBATE) >= settings.tiebreak_tokens else Pool.SYNTHESIS
-        res = ledger.reserve(pool, "tiebreaker", "tiebreak", settings.tiebreak_tokens)
-        if res.tokens < settings.judge_tokens:
+        text, evidence = _claim_context(claim.claim_id, positions)
+        user = template.format(owner=claim.owner, claim_text=text, owner_evidence=evidence,
+                               against=", ".join(claim.against_lenses),
+                               objections=_objections(claim.claim_id, claim.against_lenses, positions))
+        need = estimate_tokens(system + user) + settings.tiebreak_output_tokens
+        pool = Pool.DEBATE if ledger.remaining(Pool.DEBATE) >= need else Pool.SYNTHESIS
+        res = ledger.reserve(pool, "tiebreaker", "tiebreak", need)
+        if res.tokens < need:
             ledger.release(res)
             resolutions.append(Resolution(
                 claim_id=claim.claim_id, method=ResolutionMethod.FLAG_UNRESOLVED,
                 reasoning=f"contested by {claim.against_lenses} vs {claim.owner}; no budget left to adjudicate",
             ))
             continue
-        text, evidence = _claim_context(claim.claim_id, positions)
-        user = template.format(owner=claim.owner, claim_text=text, owner_evidence=evidence,
-                               against=", ".join(claim.against_lenses),
-                               objections=_objections(claim.claim_id, claim.against_lenses, positions))
         try:
             verdict, usage = await provider.structured(
-                schema=TieBreak, system="You are a neutral senior investment adjudicator.",
-                user=user, tier=Tier.PRO, max_tokens=res.tokens, kind="tiebreak",
+                schema=TieBreak, system=system,
+                user=user, tier=Tier.PRO, max_tokens=settings.tiebreak_output_tokens, kind="tiebreak",
             )
             ledger.commit(res, usage)
             resolutions.append(Resolution(claim_id=claim.claim_id, method=ResolutionMethod.TIEBREAKER,

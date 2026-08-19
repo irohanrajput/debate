@@ -13,6 +13,10 @@ def _entity_for(content: str, entities: list[str]) -> str | None:
     return next((e for e in entities if e.split()[0].lower() in content.lower()), None)
 
 
+def entity_key(entity: str | None) -> str:
+    return entity.split()[0].lower() if entity else ""
+
+
 def load_facts_dataset(path: Path) -> list[Document]:
     data = json.loads(path.read_text())
     docs: list[Document] = []
@@ -27,7 +31,7 @@ def load_facts_dataset(path: Path) -> list[Document]:
             docs.append(Document(
                 page_content=f"{header} {fact['content']}",
                 metadata={"kind": "fact", "record_id": fact["id"], "sequence": seq_name,
-                          "entity": entity or "", "source": fact.get("source", ""),
+                          "entity": entity or "", "entity_key": entity_key(entity), "source": fact.get("source", ""),
                           "reliability": reliability if reliability is not None else 0.0,
                           "timestamp": fact.get("timestamp", "")},
             ))
@@ -43,6 +47,7 @@ def load_decisions_dataset(path: Path) -> list[Document]:
         docs.append(Document(
             page_content=f"{header} {d['rationale']}{outcome}",
             metadata={"kind": "decision", "record_id": d["id"], "entity": d["entity"],
+                      "entity_key": entity_key(d["entity"]),
                       "decision": d["decision"], "timestamp": d["timestamp"], "reliability": 1.0},
         ))
     return docs
@@ -59,8 +64,8 @@ def load_text_docs(directory: Path) -> list[Document]:
             continue
         for i, chunk in enumerate(splitter.split_text(path.read_text())):
             docs.append(Document(page_content=f"[{path.stem}] {chunk}",
-                                 metadata={"kind": "doc", "record_id": f"{path.stem}:{i}",
-                                           "entity": "", "source": path.name, "reliability": 0.0}))
+                                 metadata={"kind": "doc", "record_id": f"{path.stem}:{i}", "entity": "",
+                                           "entity_key": "", "source": path.name, "reliability": 0.0}))
     return docs
 
 
@@ -91,7 +96,7 @@ class CorpusIndex:
 
     def search(self, query: str, entity: str | None = None, min_reliability: float | None = None,
                k: int | None = None) -> list[Document]:
-        flt = {"entity": entity} if entity else None
+        flt = {"entity_key": entity_key(entity)} if entity else None
         results = self._store.similarity_search(query, k=k or settings.retrieval_k, filter=flt)
         if min_reliability is not None:
             results = [d for d in results if d.metadata.get("reliability", 0.0) >= min_reliability]

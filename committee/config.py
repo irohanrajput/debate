@@ -16,6 +16,11 @@ class Settings(BaseSettings):
     flash_thinking_budget: int = 0
     pro_thinking_budget: int = 512
     repair_retries: int = 1
+    chars_per_token: int = 3
+    min_output_tokens: int = 512
+    plan_min_output_tokens: int = 256
+    judge_output_tokens: int = 256
+    tiebreak_output_tokens: int = 1024
 
     # budget pools (fractions of total)
     research_pool_frac: float = 0.30
@@ -72,7 +77,7 @@ class Settings(BaseSettings):
     # io
     data_dir: str = "data"
     runs_dir: str = "runs"
-    default_budget: int = 40000
+    default_budget: int = 50000
     api_host: str = "0.0.0.0"
     api_port: int = 8000
 

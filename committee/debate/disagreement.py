@@ -6,7 +6,7 @@ from typing import Protocol
 import numpy as np
 
 from committee.config import settings
-from committee.debate.budget import Ledger, Pool
+from committee.debate.budget import Ledger, Pool, estimate_tokens
 from committee.llm.client import LLMProvider
 from committee.models import (
     AnalystPosition,
@@ -80,15 +80,17 @@ async def assess(
         key = tuple(sorted((a.id, b.id)))
         verdict = judge_cache.get(key)
         if verdict is None:
-            res = ledger.reserve(Pool.DEBATE, "judge", "judge", settings.judge_tokens)
-            if res.tokens == 0:
+            judge_user = f"Claim A ({lens_a}): {a.text}\nClaim B ({lens_b}): {b.text}\nDo they contradict?"
+            need = estimate_tokens(_JUDGE_SYSTEM + judge_user) + settings.judge_output_tokens
+            res = ledger.reserve(Pool.DEBATE, "judge", "judge", need)
+            if res.tokens < need:
                 ledger.release(res)
                 continue
             try:
                 verdict, usage = await provider.structured(
                     schema=ContradictionVerdict, system=_JUDGE_SYSTEM,
-                    user=f"Claim A ({lens_a}): {a.text}\nClaim B ({lens_b}): {b.text}\nDo they contradict?",
-                    tier=Tier.FLASH, max_tokens=settings.judge_tokens, kind="judge",
+                    user=judge_user,
+                    tier=Tier.FLASH, max_tokens=settings.judge_output_tokens, kind="judge",
                 )
                 ledger.commit(res, usage)
             except Exception:

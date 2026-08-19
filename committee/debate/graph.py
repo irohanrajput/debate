@@ -10,7 +10,7 @@ from committee.config import settings
 from committee.agents.analyst import Analyst, render_findings, render_others
 from committee.agents.chair import synthesize
 from committee.agents.lenses import LENSES
-from committee.debate.budget import Ledger, Pool
+from committee.debate.budget import InsufficientBudget, Ledger, Pool
 from committee.debate.disagreement import assess, must_address_for
 from committee.debate.policies.base import get_policy
 from committee.debate.resolver import resolve_conflicts
@@ -59,14 +59,21 @@ async def _run_one(rt: DebateRuntime, lens: str) -> tuple[str, object | None]:
         if res.tokens > 0:
             await rt.bus.publish("agent_started", round=rt.round, lens=lens, phase="research")
             try:
-                focus = ("Focus ONLY on the contested claims you must address."
-                         if decision.mode == Mode.EXPLOIT else "")
+                focus_parts = []
+                if decision.mode == Mode.EXPLOIT:
+                    focus_parts.append("Focus ONLY on the contested claims you must address.")
+                if not rt.thesis.ticker:
+                    focus_parts.append("This entity has no public market data; do not call market tools; rely on search_corpus.")
+                focus = " ".join(focus_parts)
                 new_evidence, usage = await analyst.research(rt.thesis, tier, res.tokens, focus, rt.round)
                 rt.ledger.commit(res, usage)
                 for ev in new_evidence:
                     if ev.id not in memory.evidence_ids:
                         memory.evidence_ids.append(ev.id)
                         evidence.append(ev)
+            except InsufficientBudget as exc:
+                rt.ledger.release(res)
+                await rt.bus.publish("agent_skipped", round=rt.round, lens=lens, reason=f"research: {exc}")
             except Exception as exc:
                 rt.ledger.release(res)
                 await rt.bus.publish("error", round=rt.round, lens=lens, where="research", detail=str(exc))
@@ -98,6 +105,10 @@ async def _run_one(rt: DebateRuntime, lens: str) -> tuple[str, object | None]:
                              lean=str(getattr(output, "provisional_lean", "") or ""),
                              summary=output.summary)
         return lens, output
+    except InsufficientBudget as exc:
+        rt.ledger.release(res)
+        await rt.bus.publish("agent_skipped", round=rt.round, lens=lens, reason=str(exc))
+        return lens, None
     except Exception as exc:
         rt.ledger.release(res)
         await rt.bus.publish("error", round=rt.round, lens=lens, where="argue", detail=str(exc))

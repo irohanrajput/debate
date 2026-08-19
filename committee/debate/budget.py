@@ -18,6 +18,14 @@ class BudgetError(Exception):
     pass
 
 
+class InsufficientBudget(Exception):
+    """Raised when an allocation cannot cover prompt input plus a minimal output."""
+
+
+def estimate_tokens(text: str) -> int:
+    return len(text) // settings.chars_per_token
+
+
 @dataclass
 class Reservation:
     pool: Pool

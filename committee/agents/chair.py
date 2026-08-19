@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from committee.config import settings
-from committee.debate.budget import Ledger, Pool
+from committee.debate.budget import Ledger, Pool, estimate_tokens
 from committee.llm.client import LLMProvider
 from committee.models import (
     AnalystPosition,
@@ -62,11 +62,13 @@ async def synthesize(
         unresolved="\n".join(f"{r.claim_id}: {r.reasoning}" for r in unresolved) or "(none)",
         consensus=", ".join(consensus) or "(none)",
     )
+    system = (_PROMPTS / "chair_system.md").read_text()
     reservation = ledger.reserve(Pool.SYNTHESIS, "chair", "synthesis", ledger.remaining(Pool.SYNTHESIS))
+    out_cap = max(settings.min_output_tokens, reservation.tokens - estimate_tokens(system + user))
     try:
         memo, usage = await provider.structured(
-            schema=CommitteeMemo, system=(_PROMPTS / "chair_system.md").read_text(),
-            user=user, tier=Tier.PRO, max_tokens=reservation.tokens, kind="synthesis",
+            schema=CommitteeMemo, system=system,
+            user=user, tier=Tier.PRO, max_tokens=out_cap, kind="synthesis",
         )
         ledger.commit(reservation, usage)
     except Exception:

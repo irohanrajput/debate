@@ -6,6 +6,7 @@ from typing import Awaitable, Callable
 from committee.config import settings
 from committee.agents.lenses import LensSpec
 from committee.evidence.tools import ToolBox, tool_catalog
+from committee.debate.budget import InsufficientBudget, estimate_tokens
 from committee.llm.client import LLMProvider, SchemaError
 from committee.models import (
     AnalystMemory,
@@ -80,9 +81,11 @@ class Analyst:
             preferred_tools=", ".join(self.lens.preferred_tools),
             focus=focus, max_queries=settings.max_research_queries,
         )
+        system = _system_for(self.lens)
+        out_cap = self._output_cap(system, user, max_tokens, settings.plan_min_output_tokens, settings.plan_tokens)
         plan, usage = await self._provider.structured(
-            schema=ResearchPlan, system=_system_for(self.lens), user=user,
-            tier=tier, max_tokens=max_tokens, kind="plan",
+            schema=ResearchPlan, system=system, user=user,
+            tier=tier, max_tokens=out_cap, kind="plan",
         )
         evidence: list[Evidence] = []
         for req in plan.queries[: settings.max_research_queries]:
@@ -95,9 +98,11 @@ class Analyst:
     async def discover(self, thesis: Thesis, evidence: list[Evidence], tier: Tier,
                        max_tokens: int, round: int) -> Findings:
         user = _prompt("findings_user").format(thesis=thesis.statement, evidence=_render_evidence(evidence))
+        system = _system_for(self.lens)
+        out_cap = self._output_cap(system, user, max_tokens, settings.min_output_tokens)
         findings, usage = await self._provider.structured(
-            schema=Findings, system=_system_for(self.lens), user=user,
-            tier=tier, max_tokens=max_tokens, kind="findings",
+            schema=Findings, system=system, user=user,
+            tier=tier, max_tokens=out_cap, kind="findings",
         )
         findings.lens, findings.round, findings.usage = self.lens.name, round, usage
         return findings
@@ -113,16 +118,18 @@ class Analyst:
             thesis=thesis.statement, evidence=_render_evidence(evidence), others=others,
             obligations=obligations, round=round, mode=mode.value,
         )
+        system = _system_for(self.lens)
+        out_cap = self._output_cap(system, user, max_tokens, settings.min_output_tokens)
         position, usage = await self._provider.structured(
-            schema=AnalystPosition, system=_system_for(self.lens), user=user,
-            tier=tier, max_tokens=max_tokens, kind="argue",
+            schema=AnalystPosition, system=system, user=user,
+            tier=tier, max_tokens=out_cap, kind="argue",
         )
         missing = position.missing_responses(must_address)
         if missing:
             retry_user = user + f"\n\nYour previous answer ignored claim ids {missing}. Respond to ALL required claims."
             position, usage2 = await self._provider.structured(
-                schema=AnalystPosition, system=_system_for(self.lens), user=retry_user,
-                tier=tier, max_tokens=max_tokens, kind="argue",
+                schema=AnalystPosition, system=system, user=retry_user,
+                tier=tier, max_tokens=out_cap, kind="argue",
             )
             usage.input_tokens += usage2.input_tokens
             usage.output_tokens += usage2.output_tokens
@@ -132,6 +139,15 @@ class Analyst:
         position.lens, position.round, position.usage = self.lens.name, round, usage
         self._assign_claim_ids(position, round)
         return position
+
+    @staticmethod
+    def _output_cap(system: str, user: str, total_budget: int, min_out: int, hard_cap: int | None = None) -> int:
+        cap = total_budget - estimate_tokens(system + user)
+        if hard_cap is not None:
+            cap = min(cap, hard_cap)
+        if cap < min_out:
+            raise InsufficientBudget(f"allocation {total_budget} cannot cover prompt + {min_out} output tokens")
+        return cap
 
     def _assign_claim_ids(self, position: AnalystPosition, round: int) -> None:
         for i, claim in enumerate(position.claims, start=1):
