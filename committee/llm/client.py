@@ -41,11 +41,13 @@ class GeminiProvider:
         self._cache: dict[str, ChatGoogleGenerativeAI] = {}
 
     def _llm(self, tier: Tier, max_tokens: int) -> ChatGoogleGenerativeAI:
+        thinking = settings.pro_thinking_budget if tier == Tier.PRO else settings.flash_thinking_budget
         return ChatGoogleGenerativeAI(
             model=_model_name(tier),
             google_api_key=settings.gemini_api_key,
             temperature=settings.llm_temperature,
-            max_output_tokens=max_tokens,
+            max_output_tokens=max_tokens + thinking,
+            thinking_budget=thinking,
             timeout=settings.llm_timeout_s,
         )
 

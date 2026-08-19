@@ -13,6 +13,8 @@ class Settings(BaseSettings):
     embedding_model: str = "models/gemini-embedding-001"
     llm_temperature: float = 0.0
     llm_timeout_s: int = 120
+    flash_thinking_budget: int = 0
+    pro_thinking_budget: int = 512
     repair_retries: int = 1
 
     # budget pools (fractions of total)
@@ -26,9 +28,9 @@ class Settings(BaseSettings):
     explore_research_frac: float = 0.50
     explore_argue_frac: float = 0.50
     exploit_argue_frac: float = 0.70
-    plan_tokens: int = 512
-    argue_floor_tokens: int = 600
-    judge_tokens: int = 384
+    plan_tokens: int = 768
+    argue_floor_tokens: int = 1024
+    judge_tokens: int = 512
     tiebreak_tokens: int = 2048
 
     # debate shape

@@ -86,8 +86,9 @@ class Analyst:
         )
         evidence: list[Evidence] = []
         for req in plan.queries[: settings.max_research_queries]:
-            await self._emit("research_query", {"tool": req.tool, "args": req.args})
-            evidence.extend(self._tools.call(req.tool, self.lens.name, **req.args))
+            args = req.to_args()
+            await self._emit("research_query", {"tool": req.tool, "args": args})
+            evidence.extend(self._tools.call(req.tool, self.lens.name, **args))
         await self._emit("evidence_fetched", {"count": len(evidence), "rationale": plan.rationale})
         return evidence, usage
 

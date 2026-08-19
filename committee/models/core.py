@@ -80,8 +80,19 @@ class Evidence(BaseModel):
 
 
 class ToolRequest(BaseModel):
+    """Flat typed args: Gemini structured output cannot express free-form dicts."""
+
     tool: str
-    args: dict[str, Any] = Field(default_factory=dict)
+    query: str | None = None
+    entity: str | None = None
+    min_reliability: float | None = None
+    ticker: str | None = None
+    peers: list[str] | None = None
+
+    def to_args(self) -> dict[str, Any]:
+        fields = {"query": self.query, "entity": self.entity, "min_reliability": self.min_reliability,
+                  "ticker": self.ticker, "peers": self.peers}
+        return {k: v for k, v in fields.items() if v is not None}
 
 
 class ResearchPlan(BaseModel):
