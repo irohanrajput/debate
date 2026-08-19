@@ -32,6 +32,7 @@ class Settings(BaseSettings):
     tiebreak_tokens: int = 2048
 
     # debate shape
+    consensus_importance_min: int = 3
     min_rounds: int = 3
     max_rounds: int = 4
     theta_converged: float = 0.40
