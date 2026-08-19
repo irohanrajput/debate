@@ -19,14 +19,5 @@ def uniform_tiers(lenses: list[str], tier: Tier) -> dict[str, Tier]:
     return {lens: tier for lens in lenses}
 
 
-def rounds_left(round: int) -> int:
-    return max(1, settings.max_rounds - round + 1)
-
-
-def per_round_share(ledger: Ledger, pool: Pool, frac: float, round: int) -> int:
-    """Amortize a pool over remaining rounds so early rounds cannot drain it."""
-    return int(ledger.remaining(pool) * frac / rounds_left(round))
-
-
 def share_of_remaining(ledger: Ledger, pool: Pool, frac: float) -> int:
     return int(ledger.remaining(pool) * frac)

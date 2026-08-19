@@ -55,7 +55,7 @@ async def _run_one(rt: DebateRuntime, lens: str) -> tuple[str, object | None]:
 
     research_alloc = decision.research_by_lens.get(lens, 0)
     if research_alloc > 0:
-        res = rt.ledger.reserve(Pool.RESEARCH, lens, "plan", min(research_alloc, settings.plan_tokens))
+        res = rt.ledger.reserve(Pool.RESEARCH, lens, "plan", research_alloc)
         if res.tokens > 0:
             await rt.bus.publish("agent_started", round=rt.round, lens=lens, phase="research")
             try:

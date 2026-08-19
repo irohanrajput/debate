@@ -30,7 +30,7 @@ class Settings(BaseSettings):
     # per-round allocation fractions (of the relevant remaining pool)
     discover_research_frac: float = 0.60
     discover_argue_frac: float = 0.40
-    explore_research_frac: float = 0.50
+    explore_research_frac: float = 0.60
     explore_argue_frac: float = 0.50
     exploit_argue_frac: float = 0.70
     plan_tokens: int = 768
