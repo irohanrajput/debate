@@ -10,9 +10,10 @@ def split_evenly(amount: int, lenses: list[str], floor: int = 0) -> dict[str, in
     return {lens: per for lens in lenses}
 
 
-def split_weighted(amount: int, weights: dict[str, int]) -> dict[str, int]:
+def split_weighted(amount: int, weights: dict[str, int], floor: int | None = None) -> dict[str, int]:
     total_w = sum(weights.values()) or 1
-    return {lens: max(settings.argue_floor_tokens, int(amount * w / total_w)) for lens, w in weights.items()}
+    floor = floor if floor is not None else settings.argue_floor_tokens
+    return {lens: max(floor, int(amount * w / total_w)) for lens, w in weights.items()}
 
 
 def uniform_tiers(lenses: list[str], tier: Tier) -> dict[str, Tier]:
