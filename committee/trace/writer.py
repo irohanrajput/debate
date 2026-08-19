@@ -20,6 +20,7 @@ class TraceWriter:
         self._events_file.flush()
 
     def finalize(self, trace: DebateTrace) -> None:
+        self.run_dir.mkdir(parents=True, exist_ok=True)
         (self.run_dir / "trace.json").write_text(trace.model_dump_json(indent=2))
         if trace.memo:
             (self.run_dir / "memo.md").write_text(render_memo(trace.memo))

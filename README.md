@@ -21,6 +21,10 @@ API: `POST /debate {thesis, ticker?, entity?, budget?, policy?}` returns `{run_i
 
 Every run writes `runs/<run_id>/`: `trace.json` (the full structured trace, including every budget decision), `events.jsonl` (live event stream), and `memo.md`.
 
+## Example output
+
+A complete run is committed for inspection without running anything: [`examples/nvda-trace.json`](examples/nvda-trace.json) (the full structured trace of the live NVDA debate, including every budget decision) and [`examples/nvda-memo.md`](examples/nvda-memo.md) (its memo).
+
 ## Example runs (local `runs/`, not committed)
 
 | Run | What it shows |
