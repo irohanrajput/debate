@@ -7,7 +7,7 @@ from committee.llm.fake import FakeEmbedder, FakeProvider
 from committee.models import Mode, Thesis
 from tests.conftest import full_scripts
 
-BUDGET = 40000
+BUDGET = 60000
 
 
 async def test_full_debate_with_fake_llm(tmp_path: Path):

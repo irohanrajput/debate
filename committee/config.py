@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     pro_thinking_budget: int = 512
     repair_retries: int = 1
     chars_per_token: int = 3
-    schema_overhead_tokens: int = 700
+    schema_overhead_tokens: int = 1200
     min_output_tokens: int = 512
     plan_min_output_tokens: int = 256
     judge_output_tokens: int = 256
