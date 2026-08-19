@@ -85,7 +85,7 @@ async def assess(
         verdict = judge_cache.get(key)
         if verdict is None:
             judge_user = f"Claim A ({lens_a}): {a.text}\nClaim B ({lens_b}): {b.text}\nDo they contradict?"
-            need = estimate_tokens(_JUDGE_SYSTEM + judge_user) + settings.schema_overhead_tokens + settings.judge_output_tokens
+            need = estimate_tokens(_JUDGE_SYSTEM + judge_user) + settings.plan_schema_overhead_tokens + settings.judge_output_tokens
             res = ledger.reserve(Pool.DEBATE, "judge", "judge", need)
             if res.tokens < need:
                 ledger.release(res)
