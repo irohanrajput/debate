@@ -11,6 +11,7 @@ class EvidenceStore:
         self._by_id: dict[str, Evidence] = {}
         self._by_key: dict[tuple[str, str], str] = {}
 
+    # store one fetched fact; same (source, ref) always returns the same EV-id
     def register(self, *, source: str, ref: str, snippet: str, as_of: str | None = None,
                  reliability: float | None = None, fetched_by: str | None = None,
                  snippet_cap: int | None = None) -> Evidence:
@@ -25,11 +26,14 @@ class EvidenceStore:
         self._by_key[key] = eid
         return ev
 
+    # look up evidence by its EV-id
     def get(self, eid: str) -> Evidence | None:
         return self._by_id.get(eid)
 
+    # all EV-ids issued so far (used to validate citations)
     def known_ids(self) -> set[str]:
         return set(self._by_id)
 
+    # everything fetched this run, for the memo's evidence index
     def index(self) -> list[Evidence]:
         return list(self._by_id.values())

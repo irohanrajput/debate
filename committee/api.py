@@ -26,6 +26,7 @@ class DebateRequest(BaseModel):
     offline: bool = False
 
 
+# background task: build runtime, run the graph, fan events to SSE queues
 async def _execute(run_id: str, req: DebateRequest) -> None:
     from committee.debate.graph import build_graph, build_runtime, build_trace
 
@@ -60,6 +61,7 @@ async def _execute(run_id: str, req: DebateRequest) -> None:
         writer.finalize(trace)
 
 
+# POST /debate: returns a run_id immediately, debate runs in background
 @app.post("/debate")
 async def start_debate(req: DebateRequest) -> dict:
     import uuid
@@ -70,6 +72,7 @@ async def start_debate(req: DebateRequest) -> dict:
     return {"run_id": run_id, "stream": f"/debate/{run_id}/stream"}
 
 
+# GET /debate/{id}: status plus the full trace when finished
 @app.get("/debate/{run_id}")
 async def get_debate(run_id: str) -> dict:
     entry = _runs.get(run_id)
@@ -79,6 +82,7 @@ async def get_debate(run_id: str) -> dict:
     return {"status": entry["status"], "trace": json.loads(trace.model_dump_json()) if trace else None}
 
 
+# GET /debate/{id}/stream: live SSE event feed
 @app.get("/debate/{run_id}/stream")
 async def stream_debate(run_id: str) -> StreamingResponse:
     entry = _runs.get(run_id)
@@ -98,6 +102,7 @@ async def stream_debate(run_id: str) -> StreamingResponse:
     return StreamingResponse(generate(), media_type="text/event-stream")
 
 
+# GET /runs: all runs this server has seen
 @app.get("/runs")
 async def list_runs() -> list[dict]:
     return [{"run_id": rid, "status": e["status"]} for rid, e in _runs.items()]

@@ -36,6 +36,7 @@ from committee.trace.events import EventBus
 from committee.trace.writer import TraceWriter
 
 
+# ask the policy who speaks this round, with how many tokens, on which model
 async def _allocate(state: GraphState) -> GraphState:
     rt = state["rt"]
     rt.round += 1
@@ -48,6 +49,7 @@ async def _allocate(state: GraphState) -> GraphState:
     return {"rt": rt}
 
 
+# one agent's round: reserve -> research -> analyze -> argue -> commit; skips are logged, never truncated
 async def _run_one(rt: DebateRuntime, lens: str) -> tuple[str, object | None]:
     decision, analyst, memory = rt.decision, rt.analysts[lens], rt.memories[lens]
     tier = decision.tier_by_lens.get(lens, Tier.FLASH)
@@ -140,6 +142,7 @@ async def _run_one(rt: DebateRuntime, lens: str) -> tuple[str, object | None]:
         return lens, None
 
 
+# run all selected agents in parallel and record the round
 async def _run_round(state: GraphState) -> GraphState:
     rt = state["rt"]
     results = await asyncio.gather(*(_run_one(rt, lens) for lens in rt.decision.selected_lenses))
@@ -160,6 +163,7 @@ async def _run_round(state: GraphState) -> GraphState:
     return {"rt": rt}
 
 
+# R1: collect open questions; R2+: measure disagreement and contested claims
 async def _assess(state: GraphState) -> GraphState:
     rt = state["rt"]
     record = rt.rounds[-1]
@@ -185,6 +189,7 @@ async def _assess(state: GraphState) -> GraphState:
     return {"rt": rt}
 
 
+# stop when converged, out of rounds, or the budget can't fund a real round
 def _should_continue(state: GraphState) -> str:
     rt = state["rt"]
     if rt.round >= settings.max_rounds:
@@ -196,6 +201,7 @@ def _should_continue(state: GraphState) -> str:
     return "continue"
 
 
+# tie-break the surviving contested claims or flag them unresolved
 async def _resolve(state: GraphState) -> GraphState:
     rt = state["rt"]
     contested = rt.state.contested if rt.state else []
@@ -209,6 +215,7 @@ async def _resolve(state: GraphState) -> GraphState:
     return {"rt": rt}
 
 
+# the Chair writes the memo from its reserved budget
 async def _synthesize(state: GraphState) -> GraphState:
     rt = state["rt"]
     await rt.bus.publish("synthesis_started")
@@ -221,6 +228,7 @@ async def _synthesize(state: GraphState) -> GraphState:
     return {"rt": rt}
 
 
+# wire the LangGraph state machine: allocate -> run -> assess -> loop -> resolve -> synthesize
 def build_graph():
     graph = StateGraph(GraphState)
     graph.add_node("allocate", _allocate)
@@ -237,6 +245,7 @@ def build_graph():
     return graph.compile()
 
 
+# construct everything a debate needs: ledger, frozen snapshot, corpus, tools, the four analysts
 def build_runtime(*, thesis: Thesis, budget: int, policy: str, offline: bool,
                   run_dir: Path, provider=None, embedder=None, corpus=None,
                   snapshot: MarketSnapshot | None = None,
@@ -275,6 +284,7 @@ def build_runtime(*, thesis: Thesis, budget: int, policy: str, offline: bool,
     return rt, writer
 
 
+# assemble the final structured trace from runtime state
 def build_trace(rt: DebateRuntime) -> DebateTrace:
     return DebateTrace(
         run_id=rt.run_id, thesis=rt.thesis,
@@ -287,6 +297,7 @@ def build_trace(rt: DebateRuntime) -> DebateTrace:
     )
 
 
+# the real main(): build, run, always finalize the trace
 async def run_debate(*, thesis: Thesis, budget: int, policy: str = "explore_exploit",
                      offline: bool = False, run_dir: Path | None = None,
                      subscribers: list | None = None, provider=None, embedder=None,

@@ -8,6 +8,7 @@ from committee.models import BudgetDecision, DebateState
 POLICIES: dict[str, type["BudgetPolicy"]] = {}
 
 
+# decorator: adding a policy = one class + this registration
 def register_policy(name: str):
     def deco(cls: type[BudgetPolicy]) -> type[BudgetPolicy]:
         cls.name = name
@@ -16,6 +17,7 @@ def register_policy(name: str):
     return deco
 
 
+# resolve a policy by CLI name
 def get_policy(name: str) -> "BudgetPolicy":
     if name not in POLICIES:
         raise KeyError(f"unknown policy '{name}'; available: {sorted(POLICIES)}")

@@ -7,6 +7,7 @@ from pathlib import Path
 from committee.config import settings
 
 
+# build the Chroma index from data/ (one-time)
 def _cmd_ingest(args: argparse.Namespace) -> None:
     from committee.evidence.corpus import build_corpus
 
@@ -14,6 +15,7 @@ def _cmd_ingest(args: argparse.Namespace) -> None:
     print(f"ingested {count} chunks into {settings.chroma_dir}")
 
 
+# run a debate with live terminal rendering, print the memo
 def _cmd_debate(args: argparse.Namespace) -> None:
     from committee.cli_render import ConsoleRenderer
     from committee.debate.graph import run_debate
@@ -31,12 +33,14 @@ def _cmd_debate(args: argparse.Namespace) -> None:
         print(render_memo(trace.memo))
 
 
+# start the FastAPI server
 def _cmd_serve(args: argparse.Namespace) -> None:
     import uvicorn
 
     uvicorn.run("committee.api:app", host=settings.api_host, port=args.port)
 
 
+# argparse entry point: ingest | debate | serve
 def main() -> None:
     parser = argparse.ArgumentParser(prog="committee", description="Multi-agent investment committee")
     sub = parser.add_subparsers(dest="command", required=True)

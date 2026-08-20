@@ -19,6 +19,7 @@ from committee.models import (
 _PROMPTS = Path(__file__).parent / "prompts"
 
 
+# one line per round: stances, mode, disagreement score
 def _rounds_summary(rounds: list[RoundRecord]) -> str:
     lines = []
     for r in rounds:
@@ -32,6 +33,7 @@ def _rounds_summary(rounds: list[RoundRecord]) -> str:
     return "\n".join(lines)
 
 
+# each analyst's final stance with full claims and citations
 def _finals_summary(finals: dict[str, AnalystPosition]) -> str:
     lines = []
     for lens, pos in finals.items():
@@ -41,11 +43,13 @@ def _finals_summary(finals: dict[str, AnalystPosition]) -> str:
     return "\n".join(lines)
 
 
+# important claims nobody ever contested
 def _consensus_ids(finals: dict[str, AnalystPosition], contested_ids: set[str]) -> list[str]:
     return [c.id for pos in finals.values() for c in pos.claims
             if c.id not in contested_ids and c.importance >= settings.consensus_importance_min]
 
 
+# the Chair call: memo narrative from the LLM, hard facts (verdicts, budget) filled by code
 async def synthesize(
     *, thesis: Thesis, rounds: list[RoundRecord], finals: dict[str, AnalystPosition],
     resolutions: list[Resolution], provider: LLMProvider, ledger: Ledger,

@@ -17,6 +17,7 @@ class FakeProvider:
         self._tokens = tokens_per_call
         self.calls: list[dict] = []
 
+    # pop the next scripted object for this call kind; fails loudly if unscripted
     async def structured(
         self, *, schema: type[T], system: str, user: str, tier: Tier, max_tokens: int, kind: str
     ) -> tuple[T, Usage]:

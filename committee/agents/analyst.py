@@ -26,10 +26,12 @@ _PROMPTS = Path(__file__).parent / "prompts"
 EmitFn = Callable[[str, dict], Awaitable[None]]
 
 
+# load a prompt template from agents/prompts/
 def _prompt(name: str) -> str:
     return (_PROMPTS / f"{name}.md").read_text()
 
 
+# render the persona system prompt from the lens spec
 def _system_for(lens: LensSpec) -> str:
     return _prompt("analyst_system").format(
         title=lens.title, core_question=lens.core_question, philosophy=lens.philosophy,
@@ -56,10 +58,12 @@ def _render_evidence(evidence: list[Evidence], cap: int | None = None) -> str:
     return "\n".join(reversed(lines))
 
 
+# once an analysis exists the raw evidence can render smaller (already distilled)
 def _evidence_cap(analysis: Analysis | None) -> int:
     return settings.evidence_render_with_analysis_cap if analysis and analysis.insights else settings.evidence_render_char_cap
 
 
+# append the analyst's own distilled insights to its prompt
 def _render_analysis(analysis: Analysis | None) -> str:
     if analysis is None or not analysis.insights:
         return ""
@@ -67,6 +71,7 @@ def _render_analysis(analysis: Analysis | None) -> str:
     return f"\n\nYour prior analysis of the evidence:\n{lines}"
 
 
+# compressed view of the other analysts' stances and claims (ids kept for rebuttals)
 def render_others(positions: dict[str, AnalystPosition], exclude: str) -> str:
     lines: list[str] = []
     for lens, pos in positions.items():
@@ -77,6 +82,7 @@ def render_others(positions: dict[str, AnalystPosition], exclude: str) -> str:
     return "\n".join(lines)[: settings.others_summary_char_cap] or "(none yet)"
 
 
+# compressed view of the other analysts' R1 findings
 def render_findings(findings: dict[str, Findings], exclude: str) -> str:
     lines: list[str] = []
     for lens, f in findings.items():
@@ -97,6 +103,7 @@ class Analyst:
         self._tools = toolbox
         self._emit = emit
 
+    # one plan LLM call -> execute the chosen shared tools -> evidence with ids
     async def research(self, thesis: Thesis, tier: Tier, max_tokens: int, focus: str,
                        round: int) -> tuple[list[Evidence], Usage]:
         user = _prompt("plan_user").format(
@@ -119,6 +126,7 @@ class Analyst:
         await self._emit("evidence_fetched", {"count": len(evidence), "rationale": plan.rationale})
         return evidence, usage
 
+    # distill evidence into lens-specific derived judgments before arguing
     async def analyze(self, thesis: Thesis, evidence: list[Evidence], tier: Tier,
                       max_tokens: int, round: int) -> Analysis:
         user = _prompt("analyze_user").format(thesis=thesis.statement, evidence=_render_evidence(evidence))
@@ -132,6 +140,7 @@ class Analyst:
         analysis.lens, analysis.round, analysis.usage = self.lens.name, round, usage
         return analysis
 
+    # R1 output: observations and open questions, deliberately no stance
     async def discover(self, thesis: Thesis, evidence: list[Evidence], tier: Tier,
                        max_tokens: int, round: int, analysis: Analysis | None = None) -> Findings:
         user = _prompt("findings_user").format(
@@ -146,6 +155,7 @@ class Analyst:
         findings.lens, findings.round, findings.usage = self.lens.name, round, usage
         return findings
 
+    # the structured position call; retries once if obligations or comparisons are missing
     async def argue(self, thesis: Thesis, evidence: list[Evidence], others: str,
                     must_address: list[str], mode: Mode, tier: Tier, max_tokens: int,
                     round: int, analysis: Analysis | None = None) -> AnalystPosition:
@@ -210,6 +220,7 @@ class Analyst:
             raise InsufficientBudget(f"allocation {total_budget} cannot cover prompt + {min_out} output tokens")
         return cap
 
+    # canonical claim ids like FUND-R2-1 so rebuttals and tie-breaks can reference them
     def _assign_claim_ids(self, position: AnalystPosition, round: int) -> None:
         for i, claim in enumerate(position.claims, start=1):
             if not claim.id or not claim.id.startswith(f"{self.lens.name[:4].upper()}"):

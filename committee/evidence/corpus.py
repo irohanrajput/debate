@@ -9,14 +9,17 @@ from committee.config import settings
 from committee.llm.embeddings import get_embedder as _embedder
 
 
+# best-effort: which of the sequence's entities does this fact mention
 def _entity_for(content: str, entities: list[str]) -> str | None:
     return next((e for e in entities if e.split()[0].lower() in content.lower()), None)
 
 
+# normalized filter key so 'NovaTech' matches 'NovaTech Inc.'
 def entity_key(entity: str | None) -> str:
     return entity.split()[0].lower() if entity else ""
 
 
+# 1 fact = 1 chunk, header-prefixed, with entity/source/reliability/date metadata
 def load_facts_dataset(path: Path) -> list[Document]:
     data = json.loads(path.read_text())
     docs: list[Document] = []
@@ -38,6 +41,7 @@ def load_facts_dataset(path: Path) -> list[Document]:
     return docs
 
 
+# 1 past investment decision = 1 chunk (rationale + outcome)
 def load_decisions_dataset(path: Path) -> list[Document]:
     data = json.loads(path.read_text())
     docs: list[Document] = []
@@ -53,6 +57,7 @@ def load_decisions_dataset(path: Path) -> list[Document]:
     return docs
 
 
+# free-form md/txt files get real splitting (~2000 chars, 200 overlap)
 def load_text_docs(directory: Path) -> list[Document]:
     from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -69,6 +74,7 @@ def load_text_docs(directory: Path) -> list[Document]:
     return docs
 
 
+# ingest everything in data/ into the persistent Chroma index; returns chunk count
 def build_corpus(data_dir: Path) -> int:
     from langchain_chroma import Chroma
 
@@ -94,6 +100,7 @@ class CorpusIndex:
         self._store = Chroma(collection_name=settings.corpus_collection,
                              persist_directory=settings.chroma_dir, embedding_function=_embedder())
 
+    # embed the query, nearest-neighbor with entity filter, then reliability filter
     def search(self, query: str, entity: str | None = None, min_reliability: float | None = None,
                k: int | None = None) -> list[Document]:
         flt = {"entity_key": entity_key(entity)} if entity else None

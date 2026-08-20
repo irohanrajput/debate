@@ -24,18 +24,21 @@ TOOL_DESCRIPTIONS: dict[str, str] = {
 }
 
 
+# human-readable number formatting; hides NaN/None as n/a
 def _fmt(value: Any, pct: bool = False) -> str:
     if value is None or (isinstance(value, float) and (np.isnan(value) or np.isinf(value))):
         return "n/a"
     return f"{value * 100:.1f}%" if pct else (f"{value:,.2f}" if isinstance(value, float) else str(value))
 
 
+# simple return over the last N trading days
 def _returns(close: pd.Series, days: int) -> float | None:
     if len(close) <= days:
         return None
     return float(close.iloc[-1] / close.iloc[-1 - days] - 1)
 
 
+# safe row lookup in a yfinance statement table
 def _row(df: pd.DataFrame | None, name: str) -> pd.Series | None:
     if df is not None and name in df.index:
         series = df.loc[name].dropna()
@@ -65,6 +68,7 @@ class ToolBox:
     def names(self) -> list[str]:
         return list(self._tools)
 
+    # single entry point for agents: bad tool, bad args, or a crash becomes error evidence, never an exception
     def call(self, name: str, fetched_by: str, **args: Any) -> list[Evidence]:
         if name not in self._tools:
             return [self._error(f"unknown tool {name}", fetched_by)]
@@ -78,11 +82,13 @@ class ToolBox:
             ev.fetched_by = ev.fetched_by or fetched_by
         return evidence
 
+    # failures are evidence too, so the agent can reason about missing data
     def _error(self, message: str, fetched_by: str) -> Evidence:
         return self._store.register(source="tool_error", ref=message[:80], snippet=message, fetched_by=fetched_by)
 
     # ---------- corpus ----------
 
+    # semantic search over the text index; each hit registered with provenance
     def search_corpus(self, query: str, entity: str | None = None,
                       min_reliability: float | None = None) -> list[Evidence]:
         docs = self._corpus.search(query, entity=entity, min_reliability=min_reliability)
@@ -92,6 +98,7 @@ class ToolBox:
             reliability=d.metadata.get("reliability") or None,
         ) for d in docs]
 
+    # all corpus records about one entity, oldest first, as a single compact card
     def entity_timeline(self, entity: str) -> list[Evidence]:
         docs = self._corpus.timeline(entity)
         if not docs:
@@ -108,6 +115,7 @@ class ToolBox:
 
     # ---------- market ----------
 
+    # fundamentals as 4 cards: core multiples, revenue trajectory, margin trend, cash/dilution
     def company_snapshot(self, ticker: str) -> list[Evidence]:
         ticker = ticker.upper()
         if not self._snap.ensure(ticker):
@@ -122,11 +130,13 @@ class ToolBox:
                 cards.append(self._card(ticker, name, text))
         return cards
 
+    # register one snapshot aspect as its own citable evidence item
     def _card(self, ticker: str, aspect: str, text: str) -> Evidence:
         return self._store.register(source="yfinance", ref=f"snapshot:{ticker}:{aspect}",
                                     snippet=f"{ticker} {aspect}: {text}"[: settings.tool_result_char_cap],
                                     as_of=self._snap.as_of)
 
+    # point-in-time valuation and profitability numbers
     @staticmethod
     def _core_fields(ticker: str, info: dict, income: pd.DataFrame | None) -> str:
         growth = None
@@ -149,6 +159,7 @@ class ToolBox:
         }
         return ", ".join(f"{k}={v}" for k, v in fields.items())
 
+    # quarterly revenue with per-quarter YoY, so deceleration is visible
     @staticmethod
     def _revenue_trajectory(qincome: pd.DataFrame | None) -> str:
         rev = _row(qincome, "Total Revenue")
@@ -164,6 +175,7 @@ class ToolBox:
             parts.append(f"{label}: {_fmt(float(rev.iloc[i]))}{yoy}")
         return "quarterly revenue, newest first: " + " | ".join(parts)
 
+    # gross/operating/net margin by year, newest first
     @staticmethod
     def _margin_trend(income: pd.DataFrame | None) -> str:
         rev = _row(income, "Total Revenue")
@@ -182,6 +194,7 @@ class ToolBox:
                 parts.append(f"{name} margin by year (newest first): " + ", ".join(vals))
         return "; ".join(parts)
 
+    # FCF history and share-count change
     @staticmethod
     def _cash_and_dilution(cashflow: pd.DataFrame | None, balance: pd.DataFrame | None, info: dict) -> str:
         parts = []
@@ -198,6 +211,7 @@ class ToolBox:
             parts.append(f"shares outstanding: {_fmt(float(info['sharesOutstanding']))}")
         return "; ".join(parts)
 
+    # two cards from full history: trend (returns, MAs, 52w range) and risk (vol, drawdown, volume, beta)
     def price_stats(self, ticker: str) -> list[Evidence]:
         ticker = ticker.upper()
         if not self._snap.ensure(ticker):
@@ -241,6 +255,7 @@ class ToolBox:
                                  as_of=self._snap.as_of),
         ]
 
+    # 6-month return minus the index's 6-month return
     def _relative_strength(self, close: pd.Series) -> float | None:
         bench = self._snap.history.get(settings.macro_tickers[0])
         if bench is None:
@@ -249,6 +264,7 @@ class ToolBox:
         r_b = _returns(bench["Close"].dropna(), settings.relative_strength_days)
         return None if r_t is None or r_b is None else r_t - r_b
 
+    # volume trend (30d vs 90d) and up-day vs down-day volume
     @staticmethod
     def _volume_stats(hist: pd.DataFrame) -> dict[str, str]:
         if "Volume" not in hist.columns:
@@ -266,6 +282,7 @@ class ToolBox:
             out["upday_vs_downday_volume"] = _fmt(up / down)
         return out
 
+    # 1-year correlation and beta vs the benchmark index
     def _index_risk(self, close: pd.Series) -> dict[str, str]:
         bench = self._snap.history.get(settings.macro_tickers[0])
         if bench is None:
@@ -280,6 +297,7 @@ class ToolBox:
         beta = float(stock.cov(idx) / var) if var else None
         return {"correlation_1y_vs_index": _fmt(corr), "beta_1y_vs_index": _fmt(beta)}
 
+    # valuation/growth table across the ticker and its peers
     def peer_compare(self, ticker: str, peers: list[str]) -> list[Evidence]:
         rows = []
         for t in [ticker, *peers][:6]:
@@ -296,6 +314,7 @@ class ToolBox:
         return [self._store.register(source="yfinance", ref=f"peers:{ticker}:{','.join(peers)}",
                                      snippet=snippet[: settings.tool_result_char_cap], as_of=self._snap.as_of)]
 
+    # index/rates/VIX levels and a computed risk_on / risk_off regime label
     def macro_context(self) -> list[Evidence]:
         parts = []
         vix_level = None
@@ -319,6 +338,7 @@ class ToolBox:
         return [self._store.register(source="yfinance", ref="macro", snippet=snippet[: settings.tool_result_char_cap],
                                      as_of=self._snap.as_of)]
 
+    # deterministic what-if: growth -> margin -> exit multiple -> implied price vs today
     def scenario_math(self, ticker: str, revenue_growth: float, net_margin: float,
                       exit_multiple: float) -> list[Evidence]:
         ticker = ticker.upper()
@@ -348,5 +368,6 @@ class ToolBox:
                                      snippet=snippet[: settings.tool_result_char_cap], as_of=self._snap.as_of)]
 
 
+# the tool list injected into every research-plan prompt
 def tool_catalog() -> str:
     return json.dumps(TOOL_DESCRIPTIONS, indent=2)

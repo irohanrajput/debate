@@ -13,12 +13,14 @@ class TraceWriter:
         run_dir.mkdir(parents=True, exist_ok=True)
         self._events_file = (run_dir / "events.jsonl").open("a")
 
+    # append every event to events.jsonl as it happens
     def __call__(self, event: TraceEvent) -> None:
         if self._events_file.closed:
             return
         self._events_file.write(event.model_dump_json() + "\n")
         self._events_file.flush()
 
+    # write the full trace.json and human memo.md at the end
     def finalize(self, trace: DebateTrace) -> None:
         self.run_dir.mkdir(parents=True, exist_ok=True)
         (self.run_dir / "trace.json").write_text(trace.model_dump_json(indent=2))
@@ -27,6 +29,7 @@ class TraceWriter:
         self._events_file.close()
 
 
+# markdown rendering of the committee memo
 def render_memo(memo: CommitteeMemo) -> str:
     lines = [
         f"# Committee memo: {memo.recommendation.value}",

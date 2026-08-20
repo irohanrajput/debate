@@ -92,6 +92,7 @@ class ToolRequest(BaseModel):
     net_margin: float | None = None
     exit_multiple: float | None = None
 
+    # returns only the args the agent actually filled in, ready to pass to a tool
     def to_args(self) -> dict[str, Any]:
         fields = {"query": self.query, "entity": self.entity, "min_reliability": self.min_reliability,
                   "ticker": self.ticker, "peers": self.peers, "revenue_growth": self.revenue_growth,
@@ -161,6 +162,7 @@ class AnalystPosition(BaseModel):
     summary: str = ""
     usage: Usage | None = None
 
+    # which mandatory claim ids this position failed to answer (used for the retry)
     def missing_responses(self, must_address: list[str]) -> list[str]:
         answered = {r.claim_id for r in self.responses}
         return [cid for cid in must_address if cid not in answered]
@@ -239,6 +241,7 @@ class CommitteeMemo(BaseModel):
     budget_summary: dict[str, Any] = Field(default_factory=dict)
     data_as_of: str | None = None
 
+    # BUY_LIMITED without sizing/conditions is meaningless; reject it
     @model_validator(mode="after")
     def _limited_needs_guidance(self) -> "CommitteeMemo":
         if self.recommendation == Recommendation.BUY_LIMITED and not self.position_guidance:
@@ -254,6 +257,7 @@ class AnalystMemory(BaseModel):
     evidence_ids: list[str] = Field(default_factory=list)
     pending_must_address: list[str] = Field(default_factory=list)
 
+    # the analyst's most recent stance across all rounds
     @property
     def latest_position(self) -> AnalystPosition | None:
         return self.positions[-1] if self.positions else None

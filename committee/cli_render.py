@@ -16,6 +16,7 @@ class ConsoleRenderer:
         self.plain = plain if plain is not None else not sys.stdout.isatty()
         self.console = Console(highlight=False)
 
+    # render one event as a colored terminal line
     def __call__(self, event: TraceEvent) -> None:
         line = self._format(event)
         if line is None:
@@ -25,6 +26,7 @@ class ConsoleRenderer:
         else:
             self.console.print(line)
 
+    # event type -> display line; display truncation only, data stays full in the trace
     def _format(self, e: TraceEvent) -> str | None:
         p = e.payload
         match e.type:

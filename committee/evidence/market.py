@@ -21,12 +21,14 @@ class MarketSnapshot:
         self.as_of: str = datetime.now(timezone.utc).isoformat()
         self.offline: bool = False
 
+    # download macro series + the thesis ticker once, at debate start
     def fetch_eager(self, ticker: str | None) -> None:
         for t in settings.macro_tickers:
             self._fetch_history(t)
         if ticker:
             self.ensure(ticker)
 
+    # lazy-load an unforeseen ticker (peers); once loaded it is frozen like the rest
     def ensure(self, ticker: str) -> bool:
         ticker = ticker.upper()
         if ticker in self.history:
@@ -38,6 +40,7 @@ class MarketSnapshot:
             self._fetch_fundamentals(ticker)
         return ok
 
+    # full daily OHLCV history from Yahoo; False if the symbol is unknown
     def _fetch_history(self, ticker: str) -> bool:
         try:
             df = yf.Ticker(ticker).history(period=settings.history_period, auto_adjust=True)
@@ -48,6 +51,7 @@ class MarketSnapshot:
         self.history[ticker] = df
         return True
 
+    # info fields + income/balance/cashflow statements (annual + quarterly income)
     def _fetch_fundamentals(self, ticker: str) -> None:
         t = yf.Ticker(ticker)
         try:
@@ -65,6 +69,7 @@ class MarketSnapshot:
                 pass
         self.statements[ticker] = stmts
 
+    # persist the frozen data as parquet + json so a run can be replayed
     def save(self, run_dir: Path) -> None:
         out = run_dir / "snapshot"
         out.mkdir(parents=True, exist_ok=True)
@@ -73,6 +78,7 @@ class MarketSnapshot:
         (out / "info.json").write_text(json.dumps(self.info, default=str))
         (out / "meta.json").write_text(json.dumps({"as_of": self.as_of, "tickers": list(self.history)}))
 
+    # rebuild a snapshot from disk; marks itself offline (no re-fetching)
     @classmethod
     def load(cls, run_dir: Path) -> "MarketSnapshot":
         snap = cls()

@@ -28,6 +28,7 @@ class Embedder(Protocol):
     def embed_documents(self, texts: list[str]) -> list[list[float]]: ...
 
 
+# 0 = unanimous vote, 1 = maximally split
 def _stance_entropy(positions: dict[str, AnalystPosition]) -> float:
     counts: dict[str, int] = {}
     for pos in positions.values():
@@ -39,6 +40,7 @@ def _stance_entropy(positions: dict[str, AnalystPosition]) -> float:
     return entropy / math.log(min(n, 4))
 
 
+# similarity between two claim vectors
 def _cosine(a: list[float], b: list[float]) -> float:
     va, vb = np.array(a), np.array(b)
     denom = float(np.linalg.norm(va) * np.linalg.norm(vb)) or 1.0
@@ -71,6 +73,7 @@ def _rebuttal_pairs(positions: dict[str, AnalystPosition]) -> list[tuple[str, st
             for r in pos.responses if r.action == ResponseAction.REBUT]
 
 
+# measure the debate: entropy + judged contradictions -> score, contested list, convergence
 async def assess(
     *, round: int, positions: dict[str, AnalystPosition], prior: DebateState | None,
     embedder: Embedder, provider: LLMProvider, ledger: Ledger,
@@ -140,6 +143,7 @@ async def assess(
     )
 
 
+# trim floats for clean traces
 def round_score(x: float) -> float:
     return float(f"{x:.4f}")
 

@@ -21,6 +21,7 @@ class LensSpec(BaseModel):
 LENSES: dict[str, LensSpec] = {}
 
 
+# adding an analyst = registering one more spec here; orchestrator never changes
 def register_lens(spec: LensSpec) -> LensSpec:
     LENSES[spec.name] = spec
     return spec

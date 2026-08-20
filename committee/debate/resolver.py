@@ -23,6 +23,7 @@ class TieBreak(BaseModel):
     reasoning: str
 
 
+# find the contested claim's text and cited evidence
 def _claim_context(claim_id: str, positions: dict[str, AnalystPosition]) -> tuple[str, str]:
     for pos in positions.values():
         for c in pos.claims:
@@ -31,6 +32,7 @@ def _claim_context(claim_id: str, positions: dict[str, AnalystPosition]) -> tupl
     return "(claim text unavailable)", "none"
 
 
+# gather what the opposing lenses actually said against it
 def _objections(claim_id: str, against: list[str], positions: dict[str, AnalystPosition]) -> str:
     lines = []
     for lens in against:

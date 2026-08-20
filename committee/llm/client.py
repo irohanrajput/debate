@@ -13,6 +13,7 @@ T = TypeVar("T", bound=BaseModel)
 
 
 class LLMProvider(Protocol):
+    # one LLM call that must return a valid Pydantic object; retries once on schema failure
     async def structured(
         self, *, schema: type[T], system: str, user: str, tier: Tier, max_tokens: int, kind: str
     ) -> tuple[T, Usage]: ...
@@ -22,10 +23,12 @@ class SchemaError(Exception):
     pass
 
 
+# map flash/pro tier to the concrete Gemini model id from config
 def _model_name(tier: Tier) -> str:
     return settings.pro_model if tier == Tier.PRO else settings.flash_model
 
 
+# pull real token counts out of the provider response (never estimated)
 def _usage_from(raw: object, model: str, kind: str) -> Usage:
     meta = getattr(raw, "usage_metadata", None) or {}
     return Usage(
@@ -40,6 +43,7 @@ class GeminiProvider:
     def __init__(self) -> None:
         self._cache: dict[str, ChatGoogleGenerativeAI] = {}
 
+    # build a Gemini client with output + thinking caps for this one call
     def _llm(self, tier: Tier, max_tokens: int) -> ChatGoogleGenerativeAI:
         thinking = settings.pro_thinking_budget if tier == Tier.PRO else settings.flash_thinking_budget
         return ChatGoogleGenerativeAI(
