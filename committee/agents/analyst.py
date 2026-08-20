@@ -135,8 +135,16 @@ class Analyst:
             tier=tier, max_tokens=out_cap, kind="argue",
         )
         missing = position.missing_responses(must_address)
-        if missing:
-            retry_user = user + f"\n\nYour previous answer ignored claim ids {missing}. Respond to ALL required claims."
+        shallow = self._comparison_gap(position)
+        if missing or shallow:
+            complaints = []
+            if missing:
+                complaints.append(f"you ignored claim ids {missing}; respond to ALL required claims")
+            if shallow:
+                complaints.append(
+                    f"claims {shallow} state raw levels without any comparison; rewrite each to compare "
+                    "against the company's own history, peers, the index, or a scenario")
+            retry_user = user + "\n\nYour previous answer had problems: " + "; ".join(complaints) + "."
             position, usage2 = await self._provider.structured(
                 schema=AnalystPosition, system=system, user=retry_user,
                 tier=tier, max_tokens=out_cap, kind="argue",
@@ -146,9 +154,21 @@ class Analyst:
             still_missing = position.missing_responses(must_address)
             if still_missing:
                 raise SchemaError(f"{self.lens.name} failed to address {still_missing}")
+            # a still-shallow retry is kept: prompt pressure, not a hard gate
         position.lens, position.round, position.usage = self.lens.name, round, usage
         self._assign_claim_ids(position, round)
         return position
+
+    @staticmethod
+    def _comparison_gap(position: AnalystPosition) -> list[str]:
+        """Claim ids whose text contains no comparison cue. Soft check: used to
+        trigger one rewrite, never to reject a position outright."""
+        shallow = [c.id or f"#{i}" for i, c in enumerate(position.claims, 1)
+                   if not any(cue in c.text.lower() for cue in settings.comparison_cues)]
+        if len(position.claims) == 0:
+            return []
+        ratio_ok = (len(position.claims) - len(shallow)) / len(position.claims) >= settings.comparison_min_ratio
+        return [] if ratio_ok else shallow
 
     @staticmethod
     def _output_cap(system: str, user: str, total_budget: int, min_out: int, hard_cap: int | None = None,

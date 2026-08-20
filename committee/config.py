@@ -55,6 +55,13 @@ class Settings(BaseSettings):
     stance_weight: float = 0.5
     contested_weight: float = 0.5
 
+    # claim quality
+    comparison_cues: list[str] = ["vs", "than", "compared", "versus", "above", "below", "percentile",
+                                  "range", "peer", "historical", "average", "prior", "decelerat",
+                                  "accelerat", "expand", "contract", "yoy", "year-over-year", "trend",
+                                  "scenario", "implied", "relative"]
+    comparison_min_ratio: float = 0.5
+
     # research / tools
     max_research_queries: int = 4
     tool_result_char_cap: int = 1500
