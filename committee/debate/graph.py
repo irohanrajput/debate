@@ -81,6 +81,29 @@ async def _run_one(rt: DebateRuntime, lens: str) -> tuple[str, object | None]:
             rt.ledger.release(res)
 
     argue_alloc = decision.argue_by_lens.get(lens, 0)
+    analyze_ok = (evidence and (memory.analysis is None or rt.round == 1))
+    if analyze_ok:
+        need = settings.analyze_input_estimate_tokens + settings.schema_overhead_tokens + settings.analyze_output_tokens
+        # analysis is a luxury: it must never starve this lens's argument
+        analyze_ok = rt.ledger.remaining(Pool.DEBATE) - need >= argue_alloc
+    if analyze_ok:
+        res = rt.ledger.reserve(Pool.DEBATE, lens, "analyze", need)
+        if res.tokens >= settings.analyze_min_output_tokens:
+            await rt.bus.publish("agent_started", round=rt.round, lens=lens, phase="analyze")
+            try:
+                memory.analysis = await analyst.analyze(rt.thesis, evidence, tier, res.tokens, rt.round)
+                rt.ledger.commit(res, memory.analysis.usage)
+                await rt.bus.publish("analysis_done", round=rt.round, lens=lens,
+                                     summary=memory.analysis.summary,
+                                     insights=len(memory.analysis.insights))
+            except InsufficientBudget:
+                rt.ledger.release(res)
+            except Exception as exc:
+                rt.ledger.release(res)
+                await rt.bus.publish("error", round=rt.round, lens=lens, where="analyze", detail=str(exc))
+        else:
+            rt.ledger.release(res)
+
     res = rt.ledger.reserve(Pool.DEBATE, lens, "argue", argue_alloc)
     if res.tokens < settings.argue_floor_tokens:
         rt.ledger.release(res)
@@ -89,7 +112,8 @@ async def _run_one(rt: DebateRuntime, lens: str) -> tuple[str, object | None]:
     await rt.bus.publish("agent_started", round=rt.round, lens=lens, phase="argue")
     try:
         if rt.round == 1:
-            output = await analyst.discover(rt.thesis, evidence, tier, res.tokens, rt.round)
+            output = await analyst.discover(rt.thesis, evidence, tier, res.tokens, rt.round,
+                                            analysis=memory.analysis)
             memory.findings = output
         else:
             prior_round = rt.rounds[-1]
@@ -97,7 +121,8 @@ async def _run_one(rt: DebateRuntime, lens: str) -> tuple[str, object | None]:
                       else render_others(prior_round.positions, lens))
             must = must_address_for(lens, rt.state) if rt.state else []
             output = await analyst.argue(rt.thesis, evidence, others, must,
-                                         rt.decision.mode, tier, res.tokens, rt.round)
+                                         rt.decision.mode, tier, res.tokens, rt.round,
+                                         analysis=memory.analysis)
             memory.positions.append(output)
         rt.ledger.commit(res, output.usage)
         await rt.bus.publish("agent_done", round=rt.round, lens=lens,
@@ -119,6 +144,10 @@ async def _run_round(state: GraphState) -> GraphState:
     rt = state["rt"]
     results = await asyncio.gather(*(_run_one(rt, lens) for lens in rt.decision.selected_lenses))
     record = RoundRecord(round=rt.round, mode=rt.decision.mode, budget_decision=rt.decision)
+    for lens in rt.decision.selected_lenses:
+        memory = rt.memories[lens]
+        if memory.analysis and memory.analysis.round == rt.round:
+            record.analyses[lens] = memory.analysis
     for lens, output in results:
         if output is None:
             continue

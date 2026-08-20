@@ -1,4 +1,5 @@
 from committee.models.core import (
+    Analysis,
     AnalystMemory,
     AnalystPosition,
     AnalystVerdict,
@@ -12,6 +13,7 @@ from committee.models.core import (
     Direction,
     Evidence,
     Findings,
+    Insight,
     Mode,
     Observation,
     Recommendation,

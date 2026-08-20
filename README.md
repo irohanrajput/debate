@@ -48,7 +48,7 @@ flowchart TD
     B2 --> C
     B3 --> C
     C --> D["The selected analysts run IN PARALLEL"]
-    D --> D1["Each analyst:<br>1. plans what to look up<br>2. calls the shared tools<br>(search documents, price stats,<br>fundamentals, peers, macro)<br>3. writes a structured position<br>citing evidence ids"]
+    D --> D1["Each analyst:<br>1. plans what to look up<br>2. calls the shared tools<br>(search documents, price stats,<br>fundamentals, peers, macro, scenarios)<br>3. distills the evidence into<br>lens-specific insights (analyze step)<br>4. writes a structured position<br>citing evidence ids"]
     D1 --> E["Referee step:<br>compare everyone's claims,<br>ask a small model whether<br>opposite claims really contradict,<br>score how much the committee disagrees"]
     E --> F{"Keep debating?"}
     F -- "still disagreeing<br>and budget left" --> C
@@ -74,7 +74,7 @@ The Fundamentalist asks what the business is actually worth. Momentum/Trend asks
 
 ### Rounds
 
-R1 (DISCOVER) is research-heavy and produces findings only: observations, open questions, falsifiers. No stances, because forcing a stance before research invites anchoring. R2 (EXPLORE) produces first positions: claims with direction, importance, and evidence ids. From R3 on (EXPLOIT), when contested claims exist, the policy funds the parties to those claims at the pro tier with `must_address` obligations. Each agent must CONCEDE, PARTIAL, REBUT, or INCORPORATE every contested claim it owns or disputes, and a validator rejects silence. The explore-to-exploit transition is a function of debate state, never a hardcoded round number.
+Inside a round each analyst runs plan, fetch, analyze, argue: after fetching, an explicit analyze call distills the evidence into derived judgments (trends, gaps, scenario implications, contradictions) that feed the argument, so claims are built on comparisons rather than restated levels. R1 (DISCOVER) is research-heavy and produces findings only: observations, open questions, falsifiers. No stances, because forcing a stance before research invites anchoring. R2 (EXPLORE) produces first positions: claims with direction, importance, and evidence ids. From R3 on (EXPLOIT), when contested claims exist, the policy funds the parties to those claims at the pro tier with `must_address` obligations. Each agent must CONCEDE, PARTIAL, REBUT, or INCORPORATE every contested claim it owns or disputes, and a validator rejects silence. The explore-to-exploit transition is a function of debate state, never a hardcoded round number.
 
 ### Budget (the core meta-decision)
 

@@ -38,6 +38,8 @@ class ConsoleRenderer:
                 return f"  R{e.round} [dim]{e.lens}[/dim] {p.get('phase')}…"
             case "research_query":
                 return f"  R{e.round} [dim]{e.lens}[/dim] → {p.get('tool')}({p.get('args')})"
+            case "analysis_done":
+                return f"  R{e.round} [dim]{e.lens}[/dim] analyzed: {p.get('insights')} insights — {p.get('summary', '')[:100]}"
             case "agent_done":
                 stance = p.get("stance") or p.get("lean") or ""
                 return f"  R{e.round} [bold]{e.lens}[/bold] done: {stance} — {p.get('summary', '')[:120]}"

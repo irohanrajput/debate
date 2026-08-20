@@ -120,6 +120,19 @@ class Findings(BaseModel):
     usage: Usage | None = None
 
 
+class Insight(BaseModel):
+    text: str
+    evidence_ids: list[str] = Field(default_factory=list)
+
+
+class Analysis(BaseModel):
+    lens: str = ""
+    round: int = 0
+    insights: list[Insight]
+    summary: str = ""
+    usage: Usage | None = None
+
+
 class Claim(BaseModel):
     id: str = ""
     text: str
@@ -236,6 +249,7 @@ class CommitteeMemo(BaseModel):
 class AnalystMemory(BaseModel):
     lens: str
     findings: Findings | None = None
+    analysis: Analysis | None = None
     positions: list[AnalystPosition] = Field(default_factory=list)
     evidence_ids: list[str] = Field(default_factory=list)
     pending_must_address: list[str] = Field(default_factory=list)
@@ -259,6 +273,7 @@ class RoundRecord(BaseModel):
     mode: Mode
     budget_decision: BudgetDecision
     findings: dict[str, Findings] = Field(default_factory=dict)
+    analyses: dict[str, Analysis] = Field(default_factory=dict)
     positions: dict[str, AnalystPosition] = Field(default_factory=dict)
     state: DebateState | None = None
 

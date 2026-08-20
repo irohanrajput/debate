@@ -21,18 +21,21 @@ class Settings(BaseSettings):
     plan_schema_overhead_tokens: int = 400
     min_output_tokens: int = 512
     plan_min_output_tokens: int = 256
+    analyze_output_tokens: int = 768
+    analyze_min_output_tokens: int = 384
+    analyze_input_estimate_tokens: int = 1600
     judge_output_tokens: int = 256
     tiebreak_output_tokens: int = 1024
     max_tiebreaks: int = 3
 
     # budget pools (fractions of total)
-    research_pool_frac: float = 0.20
-    debate_pool_frac: float = 0.65
+    research_pool_frac: float = 0.28
+    debate_pool_frac: float = 0.57
     synthesis_pool_frac: float = 0.15
 
     # per-round allocation fractions (of the relevant remaining pool)
     discover_research_frac: float = 0.60
-    discover_argue_frac: float = 0.35
+    discover_argue_frac: float = 0.45
     explore_research_frac: float = 0.80
     explore_argue_frac: float = 0.55
     exploit_argue_frac: float = 0.70
@@ -69,6 +72,7 @@ class Settings(BaseSettings):
     others_summary_char_cap: int = 2000
     synthesis_input_char_cap: int = 15000
     evidence_render_char_cap: int = 3200
+    evidence_render_with_analysis_cap: int = 1600
     retrieval_k: int = 5
 
     # corpus / chunking
@@ -98,7 +102,7 @@ class Settings(BaseSettings):
     # io
     data_dir: str = "data"
     runs_dir: str = "runs"
-    default_budget: int = 60000
+    default_budget: int = 100000
     api_host: str = "0.0.0.0"
     api_port: int = 8000
 

@@ -9,6 +9,7 @@ from committee.evidence.tools import ToolBox, tool_catalog
 from committee.debate.budget import InsufficientBudget, estimate_tokens
 from committee.llm.client import LLMProvider, SchemaError
 from committee.models import (
+    Analysis,
     AnalystMemory,
     AnalystPosition,
     Evidence,
@@ -38,19 +39,32 @@ def _system_for(lens: LensSpec) -> str:
     )
 
 
-def _render_evidence(evidence: list[Evidence]) -> str:
-    """Most recent evidence first (targeted fetches), bounded by a char cap."""
+def _render_evidence(evidence: list[Evidence], cap: int | None = None) -> str:
+    """Most recent evidence first (targeted fetches), bounded by a char cap.
+    When an analysis already distilled the evidence, a smaller cap suffices."""
     if not evidence:
         return "(no evidence gathered)"
+    cap = cap or settings.evidence_render_char_cap
     lines: list[str] = []
     used = 0
     for ev in reversed(evidence):
         line = f"{ev.id} [{ev.source}:{ev.ref}] {ev.snippet}"
-        if used + len(line) > settings.evidence_render_char_cap:
+        if used + len(line) > cap:
             break
         lines.append(line)
         used += len(line)
     return "\n".join(reversed(lines))
+
+
+def _evidence_cap(analysis: Analysis | None) -> int:
+    return settings.evidence_render_with_analysis_cap if analysis and analysis.insights else settings.evidence_render_char_cap
+
+
+def _render_analysis(analysis: Analysis | None) -> str:
+    if analysis is None or not analysis.insights:
+        return ""
+    lines = "\n".join(f"- {i.text} [ev: {', '.join(i.evidence_ids) or '-'}]" for i in analysis.insights)
+    return f"\n\nYour prior analysis of the evidence:\n{lines}"
 
 
 def render_others(positions: dict[str, AnalystPosition], exclude: str) -> str:
@@ -105,9 +119,24 @@ class Analyst:
         await self._emit("evidence_fetched", {"count": len(evidence), "rationale": plan.rationale})
         return evidence, usage
 
+    async def analyze(self, thesis: Thesis, evidence: list[Evidence], tier: Tier,
+                      max_tokens: int, round: int) -> Analysis:
+        user = _prompt("analyze_user").format(thesis=thesis.statement, evidence=_render_evidence(evidence))
+        system = _system_for(self.lens)
+        out_cap = self._output_cap(system, user, max_tokens, settings.analyze_min_output_tokens,
+                                   settings.analyze_output_tokens)
+        analysis, usage = await self._provider.structured(
+            schema=Analysis, system=system, user=user,
+            tier=tier, max_tokens=out_cap, kind="analyze",
+        )
+        analysis.lens, analysis.round, analysis.usage = self.lens.name, round, usage
+        return analysis
+
     async def discover(self, thesis: Thesis, evidence: list[Evidence], tier: Tier,
-                       max_tokens: int, round: int) -> Findings:
-        user = _prompt("findings_user").format(thesis=thesis.statement, evidence=_render_evidence(evidence))
+                       max_tokens: int, round: int, analysis: Analysis | None = None) -> Findings:
+        user = _prompt("findings_user").format(
+            thesis=thesis.statement, evidence=_render_evidence(evidence, _evidence_cap(analysis)))
+        user += _render_analysis(analysis)
         system = _system_for(self.lens)
         out_cap = self._output_cap(system, user, max_tokens, settings.min_output_tokens)
         findings, usage = await self._provider.structured(
@@ -119,15 +148,16 @@ class Analyst:
 
     async def argue(self, thesis: Thesis, evidence: list[Evidence], others: str,
                     must_address: list[str], mode: Mode, tier: Tier, max_tokens: int,
-                    round: int) -> AnalystPosition:
+                    round: int, analysis: Analysis | None = None) -> AnalystPosition:
         obligations = (
             f"You MUST respond to each of these claim ids: {', '.join(must_address)}."
             if must_address else "No mandatory claims to address."
         )
         user = _prompt("position_user").format(
-            thesis=thesis.statement, evidence=_render_evidence(evidence), others=others,
+            thesis=thesis.statement, evidence=_render_evidence(evidence, _evidence_cap(analysis)), others=others,
             obligations=obligations, round=round, mode=mode.value,
         )
+        user += _render_analysis(analysis)
         system = _system_for(self.lens)
         out_cap = self._output_cap(system, user, max_tokens, settings.min_output_tokens)
         position, usage = await self._provider.structured(

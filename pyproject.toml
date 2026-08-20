@@ -2,7 +2,7 @@
 name = "committee"
 version = "0.1.0"
 description = "Multi-agent investment committee with budget-constrained debate orchestration"
-authors = ["Rohan Rajput"]
+authors = ["Tushar Singh"]
 readme = "README.md"
 packages = [{ include = "committee" }]
 
