@@ -55,7 +55,8 @@ class MarketSnapshot:
         except Exception:
             self.info[ticker] = {}
         stmts: dict[str, pd.DataFrame] = {}
-        for name, attr in (("income", "income_stmt"), ("balance", "balance_sheet"), ("cashflow", "cashflow")):
+        for name, attr in (("income", "income_stmt"), ("balance", "balance_sheet"), ("cashflow", "cashflow"),
+                           ("quarterly_income", "quarterly_income_stmt")):
             try:
                 df = getattr(t, attr)
                 if df is not None and not df.empty:

@@ -88,10 +88,14 @@ class ToolRequest(BaseModel):
     min_reliability: float | None = None
     ticker: str | None = None
     peers: list[str] | None = None
+    revenue_growth: float | None = None
+    net_margin: float | None = None
+    exit_multiple: float | None = None
 
     def to_args(self) -> dict[str, Any]:
         fields = {"query": self.query, "entity": self.entity, "min_reliability": self.min_reliability,
-                  "ticker": self.ticker, "peers": self.peers}
+                  "ticker": self.ticker, "peers": self.peers, "revenue_growth": self.revenue_growth,
+                  "net_margin": self.net_margin, "exit_multiple": self.exit_multiple}
         return {k: v for k, v in fields.items() if v is not None}
 
 

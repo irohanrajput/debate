@@ -61,7 +61,7 @@ class Settings(BaseSettings):
     evidence_snippet_char_cap: int = 600
     others_summary_char_cap: int = 2000
     synthesis_input_char_cap: int = 15000
-    evidence_render_char_cap: int = 2500
+    evidence_render_char_cap: int = 3200
     retrieval_k: int = 5
 
     # corpus / chunking
@@ -72,6 +72,12 @@ class Settings(BaseSettings):
     corpus_collection: str = "corpus"
 
     # market data
+    volume_window_days: int = 30
+    volume_baseline_days: int = 90
+    quarters_shown: int = 8
+    years_shown: int = 4
+    timeline_entry_char_cap: int = 160
+    timeline_max_entries: int = 25
     history_period: str = "max"
     macro_tickers: list[str] = ["^GSPC", "^SOX", "^TNX", "^VIX"]
     vol_window_days: int = 30

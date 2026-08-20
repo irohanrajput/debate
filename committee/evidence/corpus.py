@@ -103,9 +103,28 @@ class CorpusIndex:
         return results
 
 
+    def timeline(self, entity: str) -> list[Document]:
+        """Every stored record for an entity, oldest first. The datasets' signal
+        is in sequences (claim, denial, restatement); similarity search hides that."""
+        raw = self._store.get(where={"entity_key": entity_key(entity)})
+        docs = [Document(page_content=text, metadata=meta)
+                for text, meta in zip(raw.get("documents") or [], raw.get("metadatas") or [])]
+        seen: set[str] = set()
+        unique = []
+        for d in sorted(docs, key=lambda d: str(d.metadata.get("timestamp", ""))):
+            rid = str(d.metadata.get("record_id"))
+            if rid not in seen:
+                seen.add(rid)
+                unique.append(d)
+        return unique
+
+
 class NullCorpus:
     """Used when no corpus has been ingested; tools degrade gracefully."""
 
     def search(self, query: str, entity: str | None = None, min_reliability: float | None = None,
                k: int | None = None) -> list[Document]:
+        return []
+
+    def timeline(self, entity: str) -> list[Document]:
         return []
